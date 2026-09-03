@@ -1,0 +1,10 @@
+<p>Items</p>
+
+<ul>
+    <li *ngFor="let item of items">
+        {{ item.name}}
+    </li>
+</ul>
+
+<input [(ngModel)] = "newItemName" placeholder="Nyt Item">
+<button (click) = "addItem()">Tilføj</button>
