@@ -1,0 +1,284 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+h1 {
+  font-family: 'Montserrat', sans-serif;
+  text-align: center;
+  font-weight: normal;
+}
+/* --- Temaer --- */
+:root {
+  --bg-blur: #fff018; /* klar gul */
+  --text-color: #000;
+  --box-shadow: rgba(0,0,0,0.25);
+  --accent: #000;
+}
+
+html[data-theme="dark"] {
+  --bg-blur: rgba(30, 30, 30, 0.8);
+  --text-color: #fff;
+  --box-shadow: rgba(255,255,255,0.15);
+  --accent: #fff;
+}
+
+
+html[data-theme="light"] {
+  --bg-blur: #fff018;
+  --text-color: #000;
+  --box-shadow: rgba(0,0,0,0.15);
+  --accent: #000;
+}
+
+/* --- Fonts --- */
+body, .box, .action-btn, .search-input, .check-item {
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* --- Baggrund --- */
+.hero-bg {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)),
+    url('/bookshelf.jpg');  background-size: cover;
+  background-position: center;
+  opacity: 0.4;
+  z-index: -1;
+}
+
+/* --- Indhold --- */
+.content {
+  position: relative;
+  z-index: 1;
+  padding: 40px;
+  color: var(--text-color);
+}
+
+/* --- Layout --- */
+.box-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  padding: 20px;
+  animation: pageFade 0.4s ease;
+}
+
+@keyframes pageFade {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 1100px) {
+  .box-container { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 700px) {
+  .box-container { grid-template-columns: 1fr; }
+  .action-btn { width: 100%; justify-content: center; }
+}
+
+/* --- Bokse --- */
+.box {
+   background: #dcedc8;
+  --bg-blur: rgba(250, 240, 120, 0.85);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  padding: 20px;
+  color: var(--text-color);
+  box-shadow: 0 4px 20px var(--box-shadow);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  --accent: #7cb342;
+  height:300px;
+  overflow-y:auto;
+  scrollbar-width: thin;
+}
+
+
+.box:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px var(--box-shadow);
+}
+
+/* --- Handlinger grid --- */
+.action-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+/* --- Knapper --- */
+.action-btn {
+  padding: 14px 18px;
+  border: 1px solid var(--accent);
+  border-radius: 12px;
+  font-size: 16px;
+  color: var(--text-color);
+  cursor: pointer;
+  background: var(--bg-blur);
+
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+
+  position: relative;
+  box-shadow: 0 4px 12px var(--box-shadow);
+
+  transition: transform 0.15s ease, background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px var(--box-shadow);
+}
+
+.action-btn:active { transform: scale(0.97); }
+
+.action-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.05);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.action-btn:hover::after { opacity: 1; }
+
+/* --- Custom radio-knapper --- */
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  user-select: none;
+  position: relative;
+}
+
+/* skjul native radio */
+.check-item input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+}
+
+/* cirkel */
+.check-item .circle {
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  position: relative;
+  margin-right: 8px;
+  background: rgba(0,0,0,0.05);
+}
+
+[data-theme="dark"] .check-item .circle {
+  background: rgba(255,255,255,0.15);
+}
+
+/* den lille sorte prik */
+.check-item input[type="radio"]:checked ~ .circle::after {
+  content: "";
+  width: 12px;
+  height: 12px;
+  background-color: var(--accent);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: popIn 0.15s ease;
+}
+
+@keyframes popIn {
+  from { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+  to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+/* --- Info række --- */
+.info-row {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+/* --- Søgefelt --- */
+.search-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+  background: rgba(255, 245, 120, 0.6);
+}
+
+
+
+
+.search-input {
+  width: 90%;
+  max-width: 260px;
+  padding: 12px 16px;
+  border-radius: 30px;
+  border: none;
+  color: var(--text-color);
+  font-size: 16px;
+  outline: none;
+  transition: box-shadow 0.25s ease;
+  background: rgba(255, 255, 255, 0.6); /* frisk, let transparent hvid */
+}
+
+
+
+.search-input:focus {
+  box-shadow: 0 0 0 3px var(--accent);
+}
+
+/* --- Søgeresultater --- */
+.search-results {
+  border-radius: 12px;
+  padding: 12px;
+  animation: fadeIn 0.25s ease;
+  background: var(--bg-blur);
+
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.result-item {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--box-shadow);
+  color: var(--text-color);
+  transition: background 0.2s ease;
+}
+
+.result-item:hover { background: var(--bg-blur); }
+
+.result-item:last-child { border-bottom: none; }
+
+
+.theme-toggle {
+  background: rgba(184, 240, 209, 0.7); 
+  border: 1px solid rgba(0,0,0,0.2);
+  color: var(--text-color);
+}
+
+html {
+  transition: background-color 0.4s ease, color 0.4s ease, 
+              filter 0.4s ease, backdrop-filter 0.4s ease;
+}
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}

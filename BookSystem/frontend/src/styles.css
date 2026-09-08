@@ -1,0 +1,18 @@
+body {
+  margin: 0;
+  background-color: #f0f8ff; /* lys blå */
+  min-height: 100vh;
+}
+body {
+  margin: 0;
+  background-image: url('/assets/bookshelf.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+.hero-image {
+  width: 100%;
+  height: auto;
+  opacity: 0.5; /* 0 = helt gennemsigtig, 1 = helt synlig */
+}
+
