@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\admin\\Documents\\Projects\\BookSystem\\Api\\Api.csproj": {}
+    "C:\\Users\\admin\\Documents\\Projects\\Python-project\\BookSystem\\Api\\Api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\admin\\Documents\\Projects\\BookSystem\\Api\\Api.csproj": {
+    "C:\\Users\\admin\\Documents\\Projects\\Python-project\\BookSystem\\Api\\Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\admin\\Documents\\Projects\\BookSystem\\Api\\Api.csproj",
+        "projectUniqueName": "C:\\Users\\admin\\Documents\\Projects\\Python-project\\BookSystem\\Api\\Api.csproj",
         "projectName": "Api",
-        "projectPath": "C:\\Users\\admin\\Documents\\Projects\\BookSystem\\Api\\Api.csproj",
+        "projectPath": "C:\\Users\\admin\\Documents\\Projects\\Python-project\\BookSystem\\Api\\Api.csproj",
         "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\admin\\Documents\\Projects\\BookSystem\\Api\\obj\\",
+        "outputPath": "C:\\Users\\admin\\Documents\\Projects\\Python-project\\BookSystem\\Api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -33,14 +33,14 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\admin\\Documents\\Projects\\BookSystem\\Application\\Application.csproj": {
-                "projectPath": "C:\\Users\\admin\\Documents\\Projects\\BookSystem\\Application\\Application.csproj"
+              "C:\\Users\\admin\\Documents\\Projects\\Python-project\\BookSystem\\Application\\Application.csproj": {
+                "projectPath": "C:\\Users\\admin\\Documents\\Projects\\Python-project\\BookSystem\\Application\\Application.csproj"
               },
-              "C:\\Users\\admin\\Documents\\Projects\\BookSystem\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\admin\\Documents\\Projects\\BookSystem\\Domain\\Domain.csproj"
+              "C:\\Users\\admin\\Documents\\Projects\\Python-project\\BookSystem\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\admin\\Documents\\Projects\\Python-project\\BookSystem\\Domain\\Domain.csproj"
               },
-              "C:\\Users\\admin\\Documents\\Projects\\BookSystem\\Infrastructure\\Infrastructure.csproj": {
-                "projectPath": "C:\\Users\\admin\\Documents\\Projects\\BookSystem\\Infrastructure\\Infrastructure.csproj"
+              "C:\\Users\\admin\\Documents\\Projects\\Python-project\\BookSystem\\Infrastructure\\Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\admin\\Documents\\Projects\\Python-project\\BookSystem\\Infrastructure\\Infrastructure.csproj"
               }
             }
           }
@@ -113,14 +113,14 @@
         }
       }
     },
-    "C:\\Users\\admin\\Documents\\Projects\\BookSystem\\Application\\Application.csproj": {
+    "C:\\Users\\admin\\Documents\\Projects\\Python-project\\BookSystem\\Application\\Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\admin\\Documents\\Projects\\BookSystem\\Application\\Application.csproj",
+        "projectUniqueName": "C:\\Users\\admin\\Documents\\Projects\\Python-project\\BookSystem\\Application\\Application.csproj",
         "projectName": "Application",
-        "projectPath": "C:\\Users\\admin\\Documents\\Projects\\BookSystem\\Application\\Application.csproj",
+        "projectPath": "C:\\Users\\admin\\Documents\\Projects\\Python-project\\BookSystem\\Application\\Application.csproj",
         "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\admin\\Documents\\Projects\\BookSystem\\Application\\obj\\",
+        "outputPath": "C:\\Users\\admin\\Documents\\Projects\\Python-project\\BookSystem\\Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -142,8 +142,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\admin\\Documents\\Projects\\BookSystem\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\admin\\Documents\\Projects\\BookSystem\\Domain\\Domain.csproj"
+              "C:\\Users\\admin\\Documents\\Projects\\Python-project\\BookSystem\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\admin\\Documents\\Projects\\Python-project\\BookSystem\\Domain\\Domain.csproj"
               }
             }
           }
@@ -197,14 +197,14 @@
         }
       }
     },
-    "C:\\Users\\admin\\Documents\\Projects\\BookSystem\\Domain\\Domain.csproj": {
+    "C:\\Users\\admin\\Documents\\Projects\\Python-project\\BookSystem\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\admin\\Documents\\Projects\\BookSystem\\Domain\\Domain.csproj",
+        "projectUniqueName": "C:\\Users\\admin\\Documents\\Projects\\Python-project\\BookSystem\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "C:\\Users\\admin\\Documents\\Projects\\BookSystem\\Domain\\Domain.csproj",
+        "projectPath": "C:\\Users\\admin\\Documents\\Projects\\Python-project\\BookSystem\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\admin\\Documents\\Projects\\BookSystem\\Domain\\obj\\",
+        "outputPath": "C:\\Users\\admin\\Documents\\Projects\\Python-project\\BookSystem\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -277,14 +277,14 @@
         }
       }
     },
-    "C:\\Users\\admin\\Documents\\Projects\\BookSystem\\Infrastructure\\Infrastructure.csproj": {
+    "C:\\Users\\admin\\Documents\\Projects\\Python-project\\BookSystem\\Infrastructure\\Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\admin\\Documents\\Projects\\BookSystem\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\admin\\Documents\\Projects\\Python-project\\BookSystem\\Infrastructure\\Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "C:\\Users\\admin\\Documents\\Projects\\BookSystem\\Infrastructure\\Infrastructure.csproj",
+        "projectPath": "C:\\Users\\admin\\Documents\\Projects\\Python-project\\BookSystem\\Infrastructure\\Infrastructure.csproj",
         "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\admin\\Documents\\Projects\\BookSystem\\Infrastructure\\obj\\",
+        "outputPath": "C:\\Users\\admin\\Documents\\Projects\\Python-project\\BookSystem\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -306,11 +306,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\admin\\Documents\\Projects\\BookSystem\\Application\\Application.csproj": {
-                "projectPath": "C:\\Users\\admin\\Documents\\Projects\\BookSystem\\Application\\Application.csproj"
+              "C:\\Users\\admin\\Documents\\Projects\\Python-project\\BookSystem\\Application\\Application.csproj": {
+                "projectPath": "C:\\Users\\admin\\Documents\\Projects\\Python-project\\BookSystem\\Application\\Application.csproj"
               },
-              "C:\\Users\\admin\\Documents\\Projects\\BookSystem\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\admin\\Documents\\Projects\\BookSystem\\Domain\\Domain.csproj"
+              "C:\\Users\\admin\\Documents\\Projects\\Python-project\\BookSystem\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\admin\\Documents\\Projects\\Python-project\\BookSystem\\Domain\\Domain.csproj"
               }
             }
           }
