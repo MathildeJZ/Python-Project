@@ -8,6 +8,7 @@ class Item(BaseModel):
 
 app = FastAPI()
 
+#CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:4200"],
