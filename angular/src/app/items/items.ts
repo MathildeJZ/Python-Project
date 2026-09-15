@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ApiService } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -12,8 +12,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class ItemsComponent {
 
-  items: any[] = [];
-  newItemName = '';
+  items = signal<any[]>([]);
+  newItemName = signal('');
 
   constructor(private api: ApiService) {}
 
@@ -23,15 +23,17 @@ export class ItemsComponent {
 
   loadItems() {
     this.api.getItems().subscribe(data => {
-      this.items = data;
+      this.items.set(data);
     });
   }
 
   addItem() {
-    this.api.createItem(this.newItemName).subscribe(() => {
-      this.newItemName = '';
+    const name = this.newItemName().trim();
+    if (!name) return;
+
+    this.api.createItem(name).subscribe(() => {
+      this.newItemName.set('');
       this.loadItems();
     });
   }
 }
-

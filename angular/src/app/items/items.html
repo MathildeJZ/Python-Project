@@ -1,10 +1,14 @@
-<p>Items</p>
+    <input
+    [ngModel]="newItemName()"
+    (ngModelChange)="newItemName.set($event)"
+    (keydown.enter)="addItem()"
+    placeholder="Nyt Item"
+    />
 
-<ul>
-    <li *ngFor="let item of items">
-        {{ item.name}}
+    <button (click)="addItem()">Tilføj</button>
+
+    <ul>
+    <li *ngFor="let item of items()">
+        {{ item.name }}
     </li>
-</ul>
-
-<input [(ngModel)] = "newItemName" placeholder="Nyt Item">
-<button (click) = "addItem()">Tilføj</button>
+    </ul>

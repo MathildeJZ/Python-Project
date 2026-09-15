@@ -3,11 +3,13 @@ from pydantic import BaseModel
 import db
 from fastapi.middleware.cors import CORSMiddleware
 
-class Item(BaseModel):
-    name: str
-
 app = FastAPI()
 
+items = [] #liste i RAM, men vi vil bruge en database i stedet
+
+class Item(BaseModel):
+    name: str
+    
 #CORS
 app.add_middleware(
     CORSMiddleware,
