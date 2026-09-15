@@ -43,3 +43,14 @@ def create_item(item: Item):
     conn.commit()
 
     return {"message": "Item created", "name": item.name}
+
+#Delete
+@app.delete("items/{id}")
+def delete_item(id: int):
+    conn = db.Get_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("DELETE FROM items WHERE id =?", (id,))
+    conn.commit()
+
+    return {"message": "Item deleted", "id": id}

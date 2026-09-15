@@ -18,4 +18,9 @@ export class ApiService {
   createItem(name: string): Observable<any> {
     return this.http.post(`${this.baseUrl}/items`, { name });
   }
+
+  deleteItem(id: number) {
+    return this.http.delete(`${this.baseUrl}/items/${id}`);
+  }
+
 }

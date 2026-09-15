@@ -14,7 +14,7 @@ export class ItemsComponent {
 
   items = signal<any[]>([]);
   newItemName = signal('');
-
+  selectedItem = signal<any | null>(null);
   constructor(private api: ApiService) {}
 
   ngOnInit() {
@@ -36,4 +36,24 @@ export class ItemsComponent {
       this.loadItems();
     });
   }
+
+  deleteItem(item: any){
+    this.api.deleteItem(item.id).subscribe(() => {
+      this.loadItems();
+    });
+  }
+
+  selectItem(item: any) {
+    this.selectedItem.set(item);
+  }
+
+  deleteSelectedItem() {
+    const item = this.selectedItem();
+    if(!item) return;
+
+    this.api.deleteItem(item.id).subscribe(() => {
+      this.selectedItem.set(null);
+      this.loadItems();
+    }
+  )}
 }

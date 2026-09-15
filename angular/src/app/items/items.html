@@ -8,7 +8,20 @@
     <button (click)="addItem()">Tilføj</button>
 
     <ul>
-    <li *ngFor="let item of items()">
-        {{ item.name }}
+    <li *ngFor="let item of items()"
+        (click)="selectItem(item)"
+        [class.selected]="selectedItem()?.id === item.id"
+        >
+        {{ item.name}} (ID: {{item.id}})
     </li>
     </ul>
+
+    <button 
+    (click)="deleteSelectedItem()"
+    [disabled]="!selectedItem()"
+    >
+    Slet valgt
+</button>
+
+
+
