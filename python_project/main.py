@@ -45,9 +45,9 @@ def create_item(item: Item):
     return {"message": "Item created", "name": item.name}
 
 #Delete
-@app.delete("items/{id}")
+@app.delete("/items/{id}")
 def delete_item(id: int):
-    conn = db.Get_connection()
+    conn = db.get_connection()
     cursor = conn.cursor()
 
     cursor.execute("DELETE FROM items WHERE id =?", (id,))

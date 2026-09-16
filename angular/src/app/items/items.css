@@ -29,6 +29,11 @@
     }
 
     li {
-    color: var(--gray-700);
-    margin-bottom: 0.25rem;
+    cursor: pointer;
+    padding: 6px;
+    }
+
+    .selected{
+        background-color: #b1d31a; /* mørkere grøn */
+        padding: 8px;
     }

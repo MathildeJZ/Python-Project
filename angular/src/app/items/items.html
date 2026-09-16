@@ -9,18 +9,18 @@
 
     <ul>
     <li *ngFor="let item of items()"
-        (click)="selectItem(item)"
-        [class.selected]="selectedItem()?.id === item.id"
+        (click)="toggleItem(item)"
+        [class.selected]="selectedItems().some(i => i.id === item.id)"
         >
         {{ item.name}} (ID: {{item.id}})
     </li>
     </ul>
 
     <button 
-    (click)="deleteSelectedItem()"
-    [disabled]="!selectedItem()"
+    (click)="deleteSelectedItems()"
+    [disabled]="selectedItems().length === 0"
     >
-    Slet valgt
+    Slet valgt elementer
 </button>
 
 

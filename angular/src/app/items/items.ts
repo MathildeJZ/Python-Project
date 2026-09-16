@@ -14,7 +14,8 @@ export class ItemsComponent {
 
   items = signal<any[]>([]);
   newItemName = signal('');
-  selectedItem = signal<any | null>(null);
+  selectedItems = signal<any[]>([]);  
+
   constructor(private api: ApiService) {}
 
   ngOnInit() {
@@ -37,23 +38,30 @@ export class ItemsComponent {
     });
   }
 
-  deleteItem(item: any){
-    this.api.deleteItem(item.id).subscribe(() => {
-      this.loadItems();
+  // MULTI-SELECT TOGGLE
+  toggleItem(item: any) {
+    const current = this.selectedItems();
+    const exists = current.some(i => i.id === item.id);
+
+    if (exists) {
+      this.selectedItems.set(current.filter(i => i.id !== item.id));
+    } else {
+      this.selectedItems.set([...current, item]);
+    }
+  }
+
+  // DELETE ALL SELECTED
+  deleteSelectedItems() {
+    const items = this.selectedItems();
+    if (items.length === 0) return;
+
+    items.forEach((item, index) => {
+      this.api.deleteItem(item.id).subscribe(() => {
+        if (index === items.length - 1) {
+          this.selectedItems.set([]);
+          this.loadItems();
+        }
+      });
     });
   }
-
-  selectItem(item: any) {
-    this.selectedItem.set(item);
-  }
-
-  deleteSelectedItem() {
-    const item = this.selectedItem();
-    if(!item) return;
-
-    this.api.deleteItem(item.id).subscribe(() => {
-      this.selectedItem.set(null);
-      this.loadItems();
-    }
-  )}
 }
