@@ -1,27 +1,102 @@
-    <input
-    [ngModel]="newItemName()"
-    (ngModelChange)="newItemName.set($event)"
-    (keydown.enter)="addItem()"
-    placeholder="Nyt Item"
-    />
+    <!-- HOVEDLAYOUT -->
+    <div class="layout">
 
-    <button (click)="addItem()">Tilføj</button>
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h3>Kategorier</h3>
 
-    <ul>
-    <li *ngFor="let item of items()"
-        (click)="toggleItem(item)"
-        [class.selected]="selectedItems().some(i => i.id === item.id)"
+        <ul>
+        <li 
+            *ngFor="let cat of categories"
+            (click)="selectCategory(cat)"
+            [class.active]="selectedCategory() === cat"
         >
-        {{ item.name}} (ID: {{item.id}})
-    </li>
-    </ul>
+            {{ cat }}
+        </li>
+        </ul>
+    </div>
 
-    <button 
-    (click)="deleteSelectedItems()"
-    [disabled]="selectedItems().length === 0"
-    >
-    Slet valgt elementer
-</button>
+    <!-- CONTENT -->
+    <div class="content">
 
+        <!-- Overskrift -->
+        <h2 *ngIf="selectedCategory()">{{ selectedCategory() }}</h2>
 
+        <!-- KATEGORI-SKABELONER -->
+        <div *ngIf="selectedCategory() === 'Indkøb'">
+        <p>Her er din indkøbsliste:</p>
+        </div>
 
+        <div *ngIf="selectedCategory() === 'Arbejde'">
+        <p>Her er dine arbejdsopgaver:</p>
+        </div>
+
+        <div *ngIf="selectedCategory() === 'Studie'">
+        <p>Her er dine studieopgaver:</p>
+        </div>
+
+        <div *ngIf="selectedCategory() === 'Rejse'">
+        <p>Her er dine rejsemål:</p>
+        </div>
+
+        <div *ngIf="selectedCategory() === 'Rengøring'">
+        <p>Her er dine rengøringsopgaver:</p>
+        </div>
+
+        <div *ngIf="selectedCategory() === 'Børn'">
+        <p>Her er hvad børnene har/mangler:</p>
+        </div>
+
+        <div *ngIf="selectedCategory() === 'Økonomi'">
+        <p>Her er dine økonomiske mål:</p>
+        </div>
+
+        <div *ngIf="selectedCategory() === 'Projekter'">
+        <p>Her er dine projekter:</p>
+        </div>
+
+        <div *ngIf="selectedCategory() === 'Personlige mål'">
+        <p>Her er dine personlige mål:</p>
+        </div>
+
+        <ul>
+        <li 
+            *ngFor="let item of items()"
+            (click)="toggleItem(item)"
+            [class.selected]="selectedItems().some(i => i.id === item.id)"
+        >
+            {{ item.name }}
+        </li>
+        </ul>
+
+        <!--Bundsektion-->
+        <div class="bottom-section">
+            <input
+                [ngModel]="newItemName()"
+                (ngModelChange)="newItemName.set($event)"
+                (keydown.enter)="addItem()"
+                placeholder="Nyt Item"
+            />
+
+            <ul>
+                <li
+                *ngFor="let item of items()"
+                (click)="toggleItem(item)"
+                [class.selected]="selectedItems().some(i => i.id === item.id)"
+                >
+                {{ item.name }}
+                </li>
+            </ul>
+
+            <div class="actions">
+                <button (click)="addItem()">Tilføj</button>
+                <button 
+                    (click)="deleteSelectedItems()" 
+                    [disabled]="selectedItems().length === 0"
+                >
+                    Slet
+                </button>
+
+        </div>
+    </div>
+</div>

@@ -1,39 +1,114 @@
-    :host {
+/* GLOBAL BAGGRUND (kun for component DOM) */
+:host {
     display: block;
-    }
+}
 
-    input {
+/* LILLA BAGGRUND TIL HELE SIDEN (brug styles.css for global) */
+body {
+    background-color: #9c99d2;
+}
+
+/* INPUT */
+input {
     padding: 0.5rem 0.75rem;
     border-radius: 0.5rem;
-    border: 1px solid var(--gray-400);
+    border: 1px solid #ccc;
     margin-right: 0.5rem;
-    }
+    width: 100%;
+}
 
-    button {
-    background: #40916c; /* mørkere grøn */
+/* KNAPPER */
+button {
+    background: #a367db;
     color: white;
     border: none;
     padding: 0.5rem 1rem;
     border-radius: 0.5rem;
     cursor: pointer;
     transition: opacity 0.2s ease;
-    }
+}
 
-    button:hover {
+button:hover {
     opacity: 0.85;
-    }
+}
 
-    ul {
+/* LISTE */
+ul {
     margin-top: 1rem;
-    padding-left: 1rem;
-    }
+    padding-left: 0;
+    list-style: none;
+}
 
-    li {
+li {
     cursor: pointer;
-    padding: 6px;
-    }
+    padding: 8px;
+    border-radius: 6px;
+    transition: 0.2s;
+}
 
-    .selected{
-        background-color: #b1d31a; /* mørkere grøn */
-        padding: 8px;
-    }
+/* LILLA SELECTED – eneste version */
+.selected {
+    background-color: #d2a71c;
+    color: white;
+}
+
+/* LAYOUT */
+.layout {
+    display: flex;
+    height: 100vh;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 240px;
+    background: #f3e8ff; /* lys lilla */
+    padding: 20px;
+    border-right: 1px solid #ccc;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar li {
+    padding: 10px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: 0.2s;
+}
+
+.sidebar li.active {
+    background: #d8b4f8; /* pastel lilla */
+    border-left: 4px solid #7b2cbf; /* dyb lilla */
+}
+
+/* CONTENT */
+.content {
+    flex: 1;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    background: #b1c280; /* lys lilla */
+}
+
+/* BUNDSEKTION */
+.bottom-section {
+    margin-top: auto;
+}
+
+/* KNAPPER I BUNDEN */
+.actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.actions button {
+    background: #cce126;
+}
+
+.actions button:hover {
+    background: #dedb20;
+}

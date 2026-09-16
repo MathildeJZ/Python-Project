@@ -12,9 +12,24 @@ import { FormsModule } from '@angular/forms';
 })
 export class ItemsComponent {
 
+  // DATA SIGNALS
   items = signal<any[]>([]);
   newItemName = signal('');
-  selectedItems = signal<any[]>([]);  
+  selectedItems = signal<any[]>([]);
+  selectedCategory = signal<string | null>(null);
+
+  // KATEGORIER
+  categories = [
+    "Indkøb",
+    "Arbejde",
+    "Studie",
+    "Rejse",
+    "Rengøring",
+    "Børn",
+    "Økonomi",
+    "Projekter",
+    "Personlige mål",
+  ];
 
   constructor(private api: ApiService) {}
 
@@ -22,12 +37,14 @@ export class ItemsComponent {
     this.loadItems();
   }
 
+  // LOAD ITEMS
   loadItems() {
     this.api.getItems().subscribe(data => {
       this.items.set(data);
     });
   }
 
+  // ADD ITEM
   addItem() {
     const name = this.newItemName().trim();
     if (!name) return;
@@ -50,7 +67,7 @@ export class ItemsComponent {
     }
   }
 
-  // DELETE ALL SELECTED
+  // DELETE SELECTED ITEMS
   deleteSelectedItems() {
     const items = this.selectedItems();
     if (items.length === 0) return;
@@ -63,5 +80,10 @@ export class ItemsComponent {
         }
       });
     });
+  }
+
+  // SELECT CATEGORY
+  selectCategory(category: string) {
+    this.selectedCategory.set(category);
   }
 }
