@@ -3,7 +3,9 @@ from pydantic import BaseModel
 import db
 
 class Item(BaseModel):
+    id: int | None = None
     name: str
+    category: str
 
 app = FastAPI()
 
@@ -24,8 +26,10 @@ def create_item(item: Item):
     conn = db.get_connection()
     cursor = conn.cursor()
 
-    cursor.execute("INSERT INTO items (name) VALUES (?)", (item.name,))
+    cursor.execute(
+        "INSERT INTO items (name, category) VALUES (?, ?)",
+        (item.name, item.category)
+    )
     conn.commit()
 
-    return {"message": "Item created", "name": item.name}
-
+    return {"message": "Item created", "name": item.name, "category": item.category}

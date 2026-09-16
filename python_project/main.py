@@ -8,7 +8,9 @@ app = FastAPI()
 items = [] #liste i RAM, men vi vil bruge en database i stedet
 
 class Item(BaseModel):
+    id: int
     name: str
+    category: str
     
 #CORS
 app.add_middleware(

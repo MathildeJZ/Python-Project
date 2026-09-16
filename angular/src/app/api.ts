@@ -15,9 +15,10 @@ export class ApiService {
     return this.http.get<any[]>(`${this.baseUrl}/items`);
   }
 
-  createItem(name: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/items`, { name });
-  }
+  createItem(item: { name: string; category: string }) {
+      return this.http.post('/items', item);
+    }
+
 
   deleteItem(id: number) {
     return this.http.delete(`${this.baseUrl}/items/${id}`);

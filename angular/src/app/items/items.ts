@@ -37,25 +37,27 @@ export class ItemsComponent {
     this.loadItems();
   }
 
-  // LOAD ITEMS
+  // HENT ALLE ITEMS FRA BACKEND
   loadItems() {
     this.api.getItems().subscribe(data => {
       this.items.set(data);
     });
   }
 
-  // ADD ITEM
+  // TILFØJ ITEM MED KATEGORI
   addItem() {
     const name = this.newItemName().trim();
-    if (!name) return;
+    const category = this.selectedCategory();
 
-    this.api.createItem(name).subscribe(() => {
+    if (!name || !category) return;
+
+    this.api.createItem({ name, category }).subscribe(() => {
       this.newItemName.set('');
       this.loadItems();
     });
   }
 
-  // MULTI-SELECT TOGGLE
+  // MULTI-SELECT
   toggleItem(item: any) {
     const current = this.selectedItems();
     const exists = current.some(i => i.id === item.id);
@@ -67,7 +69,7 @@ export class ItemsComponent {
     }
   }
 
-  // DELETE SELECTED ITEMS
+  // SLET VALGTE ITEMS
   deleteSelectedItems() {
     const items = this.selectedItems();
     if (items.length === 0) return;
@@ -82,8 +84,15 @@ export class ItemsComponent {
     });
   }
 
-  // SELECT CATEGORY
+  // VÆLG KATEGORI
   selectCategory(category: string) {
     this.selectedCategory.set(category);
+  }
+
+  // FILTRER ITEMS EFTER KATEGORI
+  filteredItems() {
+    const category = this.selectedCategory();
+    if (!category) return [];
+    return this.items().filter(i => i.category === category);
   }
 }
