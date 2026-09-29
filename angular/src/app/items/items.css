@@ -1,114 +1,198 @@
-/* GLOBAL BAGGRUND (kun for component DOM) */
-:host {
-    display: block;
-}
 
-/* LILLA BAGGRUND TIL HELE SIDEN (brug styles.css for global) */
-body {
-    background-color: #9c99d2;
-}
+    /* Hele siden */
+    .page {
+    min-height: 100vh;
+    padding: 2rem;
+    background: #f4f7f5;
+    box-sizing: border-box;
+    }
 
-/* INPUT */
-input {
-    padding: 0.5rem 0.75rem;
-    border-radius: 0.5rem;
-    border: 1px solid #ccc;
-    margin-right: 0.5rem;
-    width: 100%;
-}
+    /* Hovedlayout */
+    .layout {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 2rem;
+    align-items: start;
+    }
 
-/* KNAPPER */
-button {
-    background: #a367db;
+    /* Sidebar */
+    .sidebar {
+    background: #173b2a;
     color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    transition: opacity 0.2s ease;
-}
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    }
 
-button:hover {
-    opacity: 0.85;
-}
+    .sidebar h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    }
 
-/* LISTE */
-ul {
-    margin-top: 1rem;
-    padding-left: 0;
-    list-style: none;
-}
-
-li {
-    cursor: pointer;
-    padding: 8px;
-    border-radius: 6px;
-    transition: 0.2s;
-}
-
-/* LILLA SELECTED – eneste version */
-.selected {
-    background-color: #d2a71c;
-    color: white;
-}
-
-/* LAYOUT */
-.layout {
-    display: flex;
-    height: 100vh;
-}
-
-/* SIDEBAR */
-.sidebar {
-    width: 240px;
-    background: #f3e8ff; /* lys lilla */
-    padding: 20px;
-    border-right: 1px solid #ccc;
-}
-
-.sidebar ul {
+    .sidebar ul {
     list-style: none;
     padding: 0;
-}
+    margin: 0;
+    }
 
-.sidebar li {
-    padding: 10px;
-    margin-bottom: 8px;
+    .sidebar li {
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.35rem;
+    border-radius: 0.6rem;
     cursor: pointer;
-    border-radius: 6px;
-    transition: 0.2s;
-}
+    transition: all 0.2s ease;
+    color: #d8e8df;
+    }
 
-.sidebar li.active {
-    background: #d8b4f8; /* pastel lilla */
-    border-left: 4px solid #7b2cbf; /* dyb lilla */
-}
+    .sidebar li:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    }
 
-/* CONTENT */
-.content {
-    flex: 1;
-    padding: 30px;
+    .sidebar li.active {
+    background: #8fd694;
+    color: #173b2a;
+    font-weight: 600;
+    }
+
+    /* Content */
+    .content {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    min-height: 600px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+    }
+
+    .content h2 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: #173b2a;
+    font-size: 2rem;
+    }
+
+    /* Items */
+    .content ul {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0;
+    }
+
+    .content li {
+    background: #f7faf8;
+    border: 1px solid #e0e9e3;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    }
+
+    .content li:hover {
+    transform: translateY(-2px);
+    border-color: #8fd694;
+    box-shadow: 0 5px 15px rgba(23, 59, 42, 0.08);
+    }
+
+    .content li.selected {
+    background: #e4f5e6;
+    border-color: #65b96d;
+    text-decoration: line-through;
+    }
+
+    /* Input */
+    .bottom-section {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e5ebe7;
+    }
+
+    .bottom-section input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.9rem 1rem;
+    border: 1px solid #ccd8d0;
+    border-radius: 0.6rem;
+    font-size: 1rem;
+    outline: none;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .bottom-section input:focus {
+    border-color: #65b96d;
+    box-shadow: 0 0 0 3px rgba(101, 185, 109, 0.15);
+    }
+
+    /* Knapper */
+    .actions {
     display: flex;
-    flex-direction: column;
-    background: #b1c280; /* lys lilla */
-}
+    gap: 0.75rem;
+    margin-top: 1rem;
+    }
 
-/* BUNDSEKTION */
-.bottom-section {
-    margin-top: auto;
-}
+    .actions button {
+    border: none;
+    border-radius: 0.6rem;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    }
 
-/* KNAPPER I BUNDEN */
-.actions {
-    display: flex;
-    gap: 12px;
-    margin-top: 12px;
-}
+    .actions button:first-child {
+    background: #2f7d4a;
+    color: white;
+    }
 
-.actions button {
-    background: #cce126;
-}
+    .actions button:first-child:hover {
+    background: #24633a;
+    transform: translateY(-1px);
+    }
 
-.actions button:hover {
-    background: #dedb20;
-}
+    .actions button:last-child {
+    background: #f0dddd;
+    color: #9a3333;
+    }
+
+    .actions button:last-child:hover:not(:disabled) {
+    background: #e7caca;
+    }
+
+    .actions button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    }
+
+    /* Mobil */
+    @media (max-width: 768px) {
+    .page {
+        padding: 1rem;
+    }
+
+    .layout {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        padding: 1rem;
+    }
+
+    .sidebar ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .sidebar li {
+        margin: 0;
+    }
+
+    .content {
+        padding: 1.25rem;
+    }
+    }
+

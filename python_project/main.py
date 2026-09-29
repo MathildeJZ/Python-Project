@@ -8,7 +8,7 @@ app = FastAPI()
 items = [] #liste i RAM, men vi vil bruge en database i stedet
 
 class Item(BaseModel):
-    id: int
+    id: int | None = None
     name: str
     category: str
     
@@ -41,7 +41,8 @@ def create_item(item: Item):
     conn = db.get_connection()
     cursor = conn.cursor()
 
-    cursor.execute("INSERT INTO items (name) VALUES (?)", (item.name,))
+    cursor.execute("INSERT INTO items (name, category) VALUES (?, ?)", 
+    (item.name, item.category))
     conn.commit()
 
     return {"message": "Item created", "name": item.name}

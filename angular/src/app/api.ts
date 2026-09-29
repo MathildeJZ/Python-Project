@@ -16,7 +16,7 @@ export class ApiService {
   }
 
   createItem(item: { name: string; category: string }) {
-      return this.http.post('/items', item);
+    return this.http.post(`${this.baseUrl}/items`, item);
     }
 
 

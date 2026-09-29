@@ -1,103 +1,128 @@
+    <div class="page">
+
+    <!-- HEADER -->
+    <header class="app-header">
+        <div>
+        <h1>Huskesedler</h1>
+        <p>Hold styr på dine opgaver, idéer og mål.</p>
+        </div>
+
+        <div class="header-icon">
+        ✓
+        </div>
+    </header>
+
+
     <!-- HOVEDLAYOUT -->
     <div class="layout">
 
-    <!-- SIDEBAR -->
-    <div class="sidebar">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+
         <h3>Kategorier</h3>
 
         <ul>
-        <li 
+            <li
             *ngFor="let cat of categories"
             (click)="selectCategory(cat)"
             [class.active]="selectedCategory() === cat"
-        >
+            >
             {{ cat }}
-        </li>
+            </li>
         </ul>
-    </div>
 
-    <!-- CONTENT -->
-    <div class="content">
+        </aside>
 
-        <!-- Overskrift -->
-        <h2 *ngIf="selectedCategory()">{{ selectedCategory() }}</h2>
+
+        <!-- CONTENT -->
+        <main class="content">
+
+        <!-- Valgt kategori -->
+        <h2 *ngIf="selectedCategory()">
+            {{ selectedCategory() }}
+        </h2>
+
 
         <!-- KATEGORI-SKABELONER -->
+
         <div *ngIf="selectedCategory() === 'Indkøb'">
-        <p>Her er din indkøbsliste:</p>
+            <p>Her er din indkøbsliste:</p>
         </div>
 
         <div *ngIf="selectedCategory() === 'Arbejde'">
-        <p>Her er dine arbejdsopgaver:</p>
+            <p>Her er dine arbejdsopgaver:</p>
         </div>
 
         <div *ngIf="selectedCategory() === 'Studie'">
-        <p>Her er dine studieopgaver:</p>
+            <p>Her er dine studieopgaver:</p>
         </div>
 
         <div *ngIf="selectedCategory() === 'Rejse'">
-        <p>Her er dine rejsemål:</p>
+            <p>Her er dine rejsemål:</p>
         </div>
 
         <div *ngIf="selectedCategory() === 'Rengøring'">
-        <p>Her er dine rengøringsopgaver:</p>
+            <p>Her er dine rengøringsopgaver:</p>
         </div>
 
         <div *ngIf="selectedCategory() === 'Børn'">
-        <p>Her er hvad børnene har/mangler:</p>
+            <p>Her er hvad børnene har/mangler:</p>
         </div>
 
         <div *ngIf="selectedCategory() === 'Økonomi'">
-        <p>Her er dine økonomiske mål:</p>
+            <p>Her er dine økonomiske mål:</p>
         </div>
 
         <div *ngIf="selectedCategory() === 'Projekter'">
-        <p>Her er dine projekter:</p>
+            <p>Her er dine projekter:</p>
         </div>
 
         <div *ngIf="selectedCategory() === 'Personlige mål'">
-        <p>Her er dine personlige mål:</p>
+            <p>Her er dine personlige mål:</p>
         </div>
 
+
+        <!-- ITEM LISTE -->
         <ul>
-        <li 
-            *ngFor="let item of items().filter(i => i.category === selectedCategory())">
+            <li
+            *ngFor="let item of items().filter(i => i.category === selectedCategory())"
             (click)="toggleItem(item)"
             [class.selected]="selectedItems().some(i => i.id === item.id)"
-        >
+            >
             {{ item.name }}
-        </li>
+            </li>
         </ul>
 
-        <!--Bundsektion-->
+
+        <!-- NYT ITEM -->
         <div class="bottom-section">
+
             <input
-                [ngModel]="newItemName()"
-                (ngModelChange)="newItemName.set($event)"
-                (keydown.enter)="addItem()"
-                placeholder="Nyt Item"
+            [ngModel]="newItemName()"
+            (ngModelChange)="newItemName.set($event)"
+            (keydown.enter)="addItem()"
+            placeholder="Ny huskeseddel"
             />
 
-            <ul>
-                <li 
-                *ngFor="let item of items().filter(i => i.category === selectedCategory())">
-                *ngFor="let item of items()"
-                (click)="toggleItem(item)"
-                [class.selected]="selectedItems().some(i => i.id === item.id)"
-                >
-                {{ item.name }}
-                </li>
-            </ul>
-
             <div class="actions">
-                <button (click)="addItem()">Tilføj</button>
-                <button 
-                    (click)="deleteSelectedItems()" 
-                    [disabled]="selectedItems().length === 0"
-                >
-                    Slet
-                </button>
+
+            <button (click)="addItem()">
+                Tilføj
+            </button>
+
+            <button
+                (click)="deleteSelectedItems()"
+                [disabled]="selectedItems().length === 0"
+            >
+                Slet
+            </button>
+
+            </div>
 
         </div>
+
+        </main>
+
     </div>
-</div>
+
+    </div>
