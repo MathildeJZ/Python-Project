@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { ApiService } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { computed} from '@angular/core';
 
 @Component({
   selector: 'app-items',
@@ -17,6 +18,20 @@ export class ItemsComponent {
   newItemName = signal('');
   selectedItems = signal<any[]>([]);
   selectedCategory = signal<string | null>(null);
+  totalItems = computed(() => this.items(). length);
+
+  studyItems = computed(() =>
+    this.items().filter(item => item.category === 'Studie').length);
+
+  workItems = computed(() =>
+    this.items().filter(item => item.category === 'Arbejde').length);
+
+  otherItems = computed(() =>
+    this.items().filter(
+      item => item.category !== 'Studie' && item.category ! == 'Arbejde'
+    ).length);
+
+
 
   // KATEGORIER
   categories = [

@@ -1,7 +1,8 @@
-    <div class="page">
+        <div class="page">
 
     <!-- HEADER -->
     <header class="app-header">
+
         <div>
         <h1>Huskesedler</h1>
         <p>Hold styr på dine opgaver, idéer og mål.</p>
@@ -10,11 +11,66 @@
         <div class="header-icon">
         ✓
         </div>
+
     </header>
+
+
+    <!-- DASHBOARD -->
+    <section class="dashboard">
+
+        <!-- I ALT -->
+        <div class="stat-card">
+        <span class="stat-number">
+            {{ totalItems() }}
+        </span>
+
+        <span class="stat-label">
+            I alt
+        </span>
+        </div>
+
+
+        <!-- STUDIE -->
+        <div class="stat-card">
+        <span class="stat-number">
+            {{ studyItems() }}
+        </span>
+
+        <span class="stat-label">
+            Studie
+        </span>
+        </div>
+
+
+        <!-- ARBEJDE -->
+        <div class="stat-card">
+        <span class="stat-number">
+            {{ workItems() }}
+        </span>
+
+        <span class="stat-label">
+            Arbejde
+        </span>
+        </div>
+
+
+        <!-- ANDRE -->
+        <div class="stat-card">
+        <span class="stat-number">
+            {{ otherItems() }}
+        </span>
+
+        <span class="stat-label">
+            Andre
+        </span>
+        </div>
+
+    </section>
 
 
     <!-- HOVEDLAYOUT -->
     <div class="layout">
+
 
         <!-- SIDEBAR -->
         <aside class="sidebar">
@@ -22,6 +78,7 @@
         <h3>Kategorier</h3>
 
         <ul>
+
             <li
             *ngFor="let cat of categories"
             (click)="selectCategory(cat)"
@@ -29,6 +86,7 @@
             >
             {{ cat }}
             </li>
+
         </ul>
 
         </aside>
@@ -37,13 +95,14 @@
         <!-- CONTENT -->
         <main class="content">
 
-        <!-- Valgt kategori -->
+
+        <!-- VALGT KATEGORI -->
         <h2 *ngIf="selectedCategory()">
             {{ selectedCategory() }}
         </h2>
 
 
-        <!-- KATEGORI-SKABELONER -->
+        <!-- KATEGORI-BESKRIVELSER -->
 
         <div *ngIf="selectedCategory() === 'Indkøb'">
             <p>Her er din indkøbsliste:</p>
@@ -84,6 +143,7 @@
 
         <!-- ITEM LISTE -->
         <ul>
+
             <li
             *ngFor="let item of items().filter(i => i.category === selectedCategory())"
             (click)="toggleItem(item)"
@@ -91,10 +151,11 @@
             >
             {{ item.name }}
             </li>
+
         </ul>
 
 
-        <!-- NYT ITEM -->
+        <!-- NY HUSKESEDDEL -->
         <div class="bottom-section">
 
             <input
@@ -104,11 +165,16 @@
             placeholder="Ny huskeseddel"
             />
 
+
+            <!-- KNAPPER -->
             <div class="actions">
 
-            <button (click)="addItem()">
+            <button
+                (click)="addItem()"
+            >
                 Tilføj
             </button>
+
 
             <button
                 (click)="deleteSelectedItems()"
