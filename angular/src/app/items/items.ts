@@ -19,6 +19,7 @@ export class ItemsComponent {
   selectedItems = signal<any[]>([]);
   selectedCategory = signal<string | null>(null);
   totalItems = computed(() => this.items(). length);
+  searchTerm = signal('');
 
   studyItems = computed(() =>
     this.items().filter(item => item.category === 'Studie').length);
@@ -110,4 +111,5 @@ export class ItemsComponent {
     if (!category) return [];
     return this.items().filter(i => i.category === category);
   }
-}
+
+

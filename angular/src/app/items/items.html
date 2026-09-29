@@ -139,13 +139,23 @@
         <div *ngIf="selectedCategory() === 'Personlige mål'">
             <p>Her er dine personlige mål:</p>
         </div>
+        <!-- Søgning -->
+        <div class="search-box">
+            <input  
+                type="text"
+                [ngModel] ="searchTerm()"
+                [ngModelChange]="searchTerm.set($event)"
+                placeholder="Søg i dine huskelister..."
+            />
+        </div>
 
 
         <!-- ITEM LISTE -->
         <ul>
 
             <li
-            *ngFor="let item of items().filter(i => i.category === selectedCategory())"
+            *ngFor="let item of items().filter(i => i.category === selectedCategory() && i.name.toLowerCase().includes(searchTerm().toLowerCase())
+            )"
             (click)="toggleItem(item)"
             [class.selected]="selectedItems().some(i => i.id === item.id)"
             >
