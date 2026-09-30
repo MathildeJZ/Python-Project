@@ -29,9 +29,9 @@ export class ItemsComponent {
 
   otherItems = computed(() =>
     this.items().filter(
-      item => item.category !== 'Studie' && item.category ! == 'Arbejde'
+      item => item.category !== 'Studie' && item.category !== 'Arbejde'
     ).length);
-
+  
 
 
   // KATEGORIER
@@ -65,14 +65,29 @@ export class ItemsComponent {
     const name = this.newItemName().trim();
     const category = this.selectedCategory();
 
-    if (!name || !category) return;
+    console.log('NAVN:', name);
+    console.log('KATEGORI:', category);
 
-    this.api.createItem({ name, category }).subscribe(() => {
-      this.newItemName.set('');
-      this.loadItems();
+    if (!name) return;
+
+    if (!category) {
+      alert('Vælg en kategori først.');
+      return;
+    }
+
+    this.api.createItem({ name, category }).subscribe({
+      next: (response) => {
+        console.log('API SVAR:', response);
+
+        this.newItemName.set('');
+        this.loadItems();
+      },
+      error: (error) => {
+        console.error('API FEJL:', error);
+      }
     });
   }
-
+    
   // MULTI-SELECT
   toggleItem(item: any) {
     const current = this.selectedItems();
@@ -106,10 +121,19 @@ export class ItemsComponent {
   }
 
   // FILTRER ITEMS EFTER KATEGORI
-  filteredItems() {
-    const category = this.selectedCategory();
-    if (!category) return [];
-    return this.items().filter(i => i.category === category);
-  }
+    filteredItems(): any[] {
+    const search = this.searchTerm().toLowerCase().trim();
 
+    return this.items().filter(item => {
+      const matchesCategory =
+        !this.selectedCategory() ||
+        item.category === this.selectedCategory();
+
+      const matchesSearch =
+        item.name.toLowerCase().includes(search);
+
+      return matchesCategory && matchesSearch;
+    });   
+  }
+}
 

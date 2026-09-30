@@ -144,7 +144,7 @@
             <input  
                 type="text"
                 [ngModel] ="searchTerm()"
-                [ngModelChange]="searchTerm.set($event)"
+                (ngModelChange)="searchTerm.set($event)"                
                 placeholder="Søg i dine huskelister..."
             />
         </div>
@@ -154,8 +154,7 @@
         <ul>
 
             <li
-            *ngFor="let item of items().filter(i => i.category === selectedCategory() && i.name.toLowerCase().includes(searchTerm().toLowerCase())
-            )"
+            *ngFor="let item of filteredItems()"
             (click)="toggleItem(item)"
             [class.selected]="selectedItems().some(i => i.id === item.id)"
             >
