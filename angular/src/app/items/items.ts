@@ -119,21 +119,35 @@ export class ItemsComponent {
   selectCategory(category: string) {
     this.selectedCategory.set(category);
   }
+  
+  openCategory(category: string) {
+    this.selectedCategory.set(category);
+    this.searchTerm.set('');
+  } 
 
   // FILTRER ITEMS EFTER KATEGORI
     filteredItems(): any[] {
-    const search = this.searchTerm().toLowerCase().trim();
 
-    return this.items().filter(item => {
-      const matchesCategory =
-        !this.selectedCategory() ||
-        item.category === this.selectedCategory();
+      const search = this.searchTerm().toLowerCase().trim();
 
-      const matchesSearch =
-        item.name.toLowerCase().includes(search);
+      // Hvis der søges, søges der i ALLE kategorier
+      if (search) {
+        return this.items().filter(item =>
+          item.name.toLowerCase().includes(search)
+        );
+      }
 
-      return matchesCategory && matchesSearch;
-    });   
+      // Hvis der ikke søges, vises kun den valgte kategori
+      const category = this.selectedCategory();
+
+      if (!category) {
+        return [];
+      }
+
+      return this.items().filter(
+        item => item.category === category
+      );
+      
   }
 }
 

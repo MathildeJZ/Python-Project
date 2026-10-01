@@ -151,14 +151,22 @@
 
 
         <!-- ITEM LISTE -->
-        <ul>
+        <ul class="item-list">
 
             <li
             *ngFor="let item of filteredItems()"
             (click)="toggleItem(item)"
             [class.selected]="selectedItems().some(i => i.id === item.id)"
             >
+
+            <span class="item-name">
             {{ item.name }}
+            </span>
+
+            <span class="item-category" (click)="openCategory(item.category); $event.stopPropagation()"
+            >
+            {{ item.category }}
+            </span>
             </li>
 
         </ul>
