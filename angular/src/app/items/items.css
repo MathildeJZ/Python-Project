@@ -2,13 +2,20 @@
 /* =========================================================
     HELE SIDEN
    ========================================================= */
+.body {
+    margin: 0;
+    padding: 0;
 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    }
 .page {
     min-height: 100vh;
     padding: 2rem;
     box-sizing: border-box;
 
-    background-image: url('/papir.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -16,7 +23,7 @@
 
 
 /* =========================================================
-   HEADER
+    HEADER
    ========================================================= */
 
 .app-header {
@@ -151,7 +158,6 @@
    ========================================================= */
 
 .sidebar {
-    background-image: url('/papir.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
