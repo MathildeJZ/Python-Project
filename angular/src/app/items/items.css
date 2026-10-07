@@ -36,7 +36,7 @@
 .app-header h1 {
     margin: 0;
     font-size: 2.2rem;
-    color: #173b2a;
+    color: #616161;
 }
 
 .app-header p {
@@ -56,11 +56,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.75);
-    color: #173b2a;
+    background: rgba(189, 188, 188, 0.75);
+    color: #d8e3de;
     font-size: 1.4rem;
     font-weight: bold;
-    border: 1px solid rgba(23, 59, 42, 0.15);
+    border: 1px solid rgba(78, 84, 81, 0.15);
 }
 
 
@@ -103,7 +103,7 @@
 .stat-number {
     font-size: 2.2rem;
     font-weight: 700;
-    color: #173b2a;
+    color: #020303;
 }
 
 
@@ -423,14 +423,13 @@
 
 
 /* Tilføj-knap */
-
 .actions button:first-child {
-    background: #757776;
+    background: #434544;
     color: white;
 }
 
 .actions button:first-child:hover {
-    background: #526057;
+    background: #585a58;
     transform: translateY(-1px);
     box-shadow: 0 4px 10px rgba(47, 125, 74, 0.2);
 }
