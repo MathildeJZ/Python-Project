@@ -14,11 +14,15 @@ import { FormsModule } from '@angular/forms';
 export class ItemsComponent {
 
   // DATA SIGNALS
-  items = signal<any[]>([]);
-  newItemName = signal('');
-  selectedItems = signal<any[]>([]);
-  selectedCategory = signal<string | null>(null);
-  searchTerm = signal('');
+    items = signal<any[]>([]);
+    newItemName = signal('');
+    selectedItems = signal<any[]>([]);
+    selectedCategory = signal<string | null>(null);
+    searchTerm = signal('');
+
+    // NY LISTE
+    showNewCategoryInput = false;
+    newCategoryName = '';
 
   // DASHBOARD
   totalItems = computed(() => this.items().length);
@@ -53,8 +57,65 @@ export class ItemsComponent {
 
   constructor(private api: ApiService) {}
 
+  loadCategories() {
+    this.api.getCategories().subscribe({
+      next: data => {
+        this.categories = data.map(category => category.name);
+      },
+      error: error => {
+        console.error('FEJL VED HENTNING AF KATEGORIER:', error);
+      }
+    });
+  }
+
+      
+    deleteCategory(categoryName: string) {
+      const confirmed = confirm(
+        `Er du sikker på, at du vil slette listen "${categoryName}"?`
+      );
+
+      if (!confirmed) return;
+
+      this.api.getCategories().subscribe({
+        next: categories => {
+          const category = categories.find(
+            (c: any) => c.name === categoryName
+          );
+
+          if (!category) {
+            alert('Listen blev ikke fundet.');
+            return;
+          }
+
+          this.api.deleteCategory(category.id).subscribe({
+            next: () => {
+              this.categories = this.categories.filter(
+                c => c !== categoryName
+              );
+
+              if (this.selectedCategory() === categoryName) {
+                this.selectedCategory.set(null);
+              }
+
+              this.loadItems();
+            },
+            error: error => {
+              console.error('FEJL VED SLETNING AF LISTE:', error);
+              alert('Listen kunne ikke slettes.');
+            }
+          });
+        },
+        error: error => {
+          console.error('FEJL VED HENTNING AF LISTER:', error);
+          alert('Listerne kunne ikke hentes.');
+        }
+      });
+    }
+
+
   ngOnInit() {
     this.loadItems();
+    this.loadCategories();
   }
 
   // HENT ALLE HUSKESEDLER FRA BACKEND
@@ -150,6 +211,40 @@ export class ItemsComponent {
     this.selectedCategory.set(null);
     this.searchTerm.set('');
   }
+
+  
+  // OPRET NY LISTE
+  addCategory() {
+    const name = this.newCategoryName.trim();
+
+    if (!name) {
+      alert('Skriv et navn til listen.');
+      return;
+    }
+
+    if (this.categories.includes(name)) {
+      alert('Listen findes allerede.');
+      return;
+    }
+
+    this.api.createCategory({ name }).subscribe({
+      next: () => {
+        this.categories.push(name);
+        this.selectedCategory.set(name);
+        this.newCategoryName = '';
+        this.showNewCategoryInput = false;
+      },
+      error: error => {
+        if (error.status === 409) {
+          alert('En liste med det navn findes allerede.');
+        } else {
+          console.error('FEJL VED OPRETTELSE AF LISTE:', error);
+          alert('Listen kunne ikke oprettes.');
+        }
+      }
+    });
+  }
+
 
   // FILTRER EFTER SØGETEKST OG KATEGORI
 

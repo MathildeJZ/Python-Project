@@ -1,15 +1,16 @@
 
 /* =========================================================
-    HELE SIDEN
+   1. HELE SIDEN
    ========================================================= */
-.body {
+
+body {
     margin: 0;
     padding: 0;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    }
+}
 
 .page {
     min-height: 100vh;
@@ -22,12 +23,12 @@
 
 
 /* =========================================================
-    HEADER
+   2. HEADER
    ========================================================= */
 
 .app-header {
     max-width: 1200px;
-    margin: 0 auto 2rem auto;
+    margin: 0 auto 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -43,11 +44,6 @@
     margin: 0.35rem 0 0;
     color: #68756d;
 }
-
-
-/* =========================================================
-   HEADER IKON
-   ========================================================= */
 
 .header-icon {
     width: 48px;
@@ -65,19 +61,16 @@
 
 
 /* =========================================================
-   DASHBOARD
+   3. DASHBOARD
    ========================================================= */
 
 .dashboard {
     max-width: 1200px;
-    margin: 0 auto 2rem auto;
+    margin: 0 auto 2rem;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
 }
-
-
-/* Statistik-kort */
 
 .stat-card {
     background: rgba(255, 255, 255, 0.90);
@@ -87,9 +80,7 @@
     box-shadow: 0 5px 20px rgba(23, 59, 42, 0.08);
     display: flex;
     flex-direction: column;
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .stat-card:hover {
@@ -97,17 +88,11 @@
     box-shadow: 0 10px 25px rgba(23, 59, 42, 0.14);
 }
 
-
-/* Det store tal */
-
 .stat-number {
     font-size: 2.2rem;
     font-weight: 700;
     color: #020303;
 }
-
-
-/* Teksten under tallet */
 
 .stat-label {
     margin-top: 0.35rem;
@@ -120,7 +105,7 @@
 
 
 /* =========================================================
-   HOVEDLAYOUT
+   4. HOVEDLAYOUT
    ========================================================= */
 
 .layout {
@@ -134,7 +119,7 @@
 
 
 /* =========================================================
-   SIDEBAR / KATEGORIER
+   5. SIDEBAR OG KATEGORIER
    ========================================================= */
 
 .sidebar {
@@ -144,13 +129,19 @@
     border-radius: 1rem;
     border: 1px solid #d0d0d0;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.10);
-    }
+}
 
 .sidebar h3 {
     margin-top: 0;
     margin-bottom: 1rem;
     font-size: 1.1rem;
     color: #173b2a;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.sidebar h3:hover {
+    color: #4F805B;
 }
 
 .sidebar ul {
@@ -165,10 +156,8 @@
     border-radius: 0.6rem;
     cursor: pointer;
     color: #365443;
-    transition:
-        background 0.2s ease,
-        color 0.2s ease,
-        transform 0.2s ease;
+    transition: background 0.2s ease, color 0.2s ease,
+                transform 0.2s ease;
 }
 
 .sidebar li:hover {
@@ -177,19 +166,93 @@
     transform: translateX(2px);
 }
 
-
-/* Valgt kategori */
-
 .sidebar li.active {
-    background:#f0f0f0;
+    background: #f0f0f0;
     color: #666968;
     font-weight: 600;
     border: 1px solid #c8c8c8;
-    }
+}
 
 
 /* =========================================================
-   CONTENT
+   6. KNAP TIL AT OPRETTE NY LISTE
+   ========================================================= */
+
+.add-category-button {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 12px;
+    padding: 0.75rem 1.25rem;
+    background: #434544;
+    color: #ffffff;
+    border: none;
+    border-radius: 0.6rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.add-category-button:hover {
+    background: #585a58;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+
+/* =========================================================
+   7. FORMULAR TIL NY LISTE
+   ========================================================= */
+
+.new-category-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 10px;
+}
+
+.new-category-form input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.9rem 1rem;
+    background: #E4F1E7;
+    border: 2px solid #8BAF94;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    color: #173b2a;
+    outline: none;
+    transition: background 0.2s ease, border-color 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.new-category-form input:focus {
+    background: #F2F8F3;
+    border-color: #4F805B;
+    box-shadow: 0 0 0 3px rgba(79, 128, 91, 0.20);
+}
+
+.new-category-form button {
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    background: #434544;
+    color: #ffffff;
+    border: none;
+    border-radius: 0.6rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.new-category-form button:hover {
+    background: #585a58;
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   8. INDHOLD
    ========================================================= */
 
 .content {
@@ -199,10 +262,7 @@
     min-height: 600px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
     border: 1px solid #d0d0d0;
-    }
-
-
-/* Kategoriens overskrift */
+}
 
 .content h2 {
     margin: 0;
@@ -212,9 +272,6 @@
     letter-spacing: -0.02em;
 }
 
-
-/* Kategori-beskrivelse */
-
 .content > div p {
     margin: 0.5rem 0 0;
     color: #68756d;
@@ -222,16 +279,14 @@
     line-height: 1.6;
 }
 
-
-/* Luft efter beskrivelsen */
-
 .content h2 + div {
     margin-bottom: 1.5rem;
 }
 
 
 /* =========================================================
-   SØGNING
+   9. SØGEFELT
+   Blå baggrund gør søgning let at skelne fra tilføjelse.
    ========================================================= */
 
 .search-box {
@@ -246,13 +301,10 @@
     background: #DCEAF7;
     border: 1px solid #C5D5E6;
     border-radius: 0.75rem;
-
     font-size: 1rem;
     color: #355675;
     outline: none;
-
-    transition: background 0.2s ease,
-                border-color 0.2s ease,
+    transition: background 0.2s ease, border-color 0.2s ease,
                 box-shadow 0.2s ease;
 }
 
@@ -267,9 +319,8 @@
 }
 
 
-
 /* =========================================================
-   HUSKESEDLER
+   10. HUSKESEDLER
    ========================================================= */
 
 .item-list {
@@ -277,9 +328,6 @@
     padding: 0;
     margin: 2rem 0;
 }
-
-
-/* Selve rækken */
 
 .item-list li {
     display: flex;
@@ -291,34 +339,31 @@
 }
 
 
-/* =========================================================
-   KASSE 1 - HUSKESEDLEN
-   ========================================================= */
+/* Huskesedlens tekst */
 
 .item-name {
     flex: 1;
+    min-width: 0;
     background: rgba(255, 255, 255, 0.92);
     border: 1px solid #dce8e1;
     border-radius: 10px;
     padding: 14px 16px;
     font-weight: 500;
     color: #173b2a;
-    transition:
-        border-color 0.2s ease,
-        box-shadow 0.2s ease,
-        background 0.2s ease;
+    overflow-wrap: anywhere;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease,
+                background 0.2s ease;
 }
 
 
-/* =========================================================
-   KASSE 2 - KATEGORI
-   ========================================================= */
+/* Kategori ved siden af huskesedlen */
 
 .item-category {
     min-width: 120px;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
     background: rgba(232, 245, 238, 0.92);
     border: 1px solid #cfe5d8;
     border-radius: 10px;
@@ -326,21 +371,16 @@
     color: #4a4b4b;
     font-size: 0.9rem;
     font-weight: 600;
-    box-sizing: border-box;
-    transition:
-        background 0.2s ease,
-        border-color 0.2s ease;
+    overflow-wrap: anywhere;
+    transition: background 0.2s ease, border-color 0.2s ease;
 }
 
 
-/* =========================================================
-   HOVER
-   ========================================================= */
+/* Hover på huskeseddel */
 
 .item-list li:hover .item-name {
     border-color: #535453;
-    box-shadow:
-        0 5px 15px rgba(23, 59, 42, 0.08);
+    box-shadow: 0 5px 15px rgba(23, 59, 42, 0.08);
 }
 
 .item-list li:hover .item-category {
@@ -349,9 +389,7 @@
 }
 
 
-/* =========================================================
-   VALGT HUSKESEDDEL
-   ========================================================= */
+/* Valgt huskeseddel */
 
 .item-list li.selected .item-name {
     background: #bfc1bf;
@@ -366,35 +404,28 @@
 
 
 /* =========================================================
-   NY HUSKESEDDEL
+   11. FELT TIL NY HUSKESEDDEL
+   Grøn baggrund adskiller det fra det blå søgefelt.
    ========================================================= */
 
 .bottom-section {
     margin-top: 2rem;
     padding-top: 1.5rem;
-    border-top: 1px solid #e5ebe7;
+    border-top: 1px solid #d0d0d0;
 }
-
-
-/* Input */
 
 .bottom-section input {
     width: 100%;
     box-sizing: border-box;
     padding: 0.9rem 1rem;
-
     background: #E4F1E7;
     border: 2px solid #8BAF94;
     border-radius: 0.75rem;
-
     font-size: 1rem;
     color: #173b2a;
     outline: none;
-
-    transition:
-        background 0.2s ease,
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
+    transition: background 0.2s ease, border-color 0.2s ease,
+                box-shadow 0.2s ease;
 }
 
 .bottom-section input:focus {
@@ -403,8 +434,9 @@
     box-shadow: 0 0 0 3px rgba(79, 128, 91, 0.20);
 }
 
+
 /* =========================================================
-   KNAPPER
+   12. KNAPPER TIL HUSKESEDLER
    ========================================================= */
 
 .actions {
@@ -420,35 +452,34 @@
     font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
-    transition:
-    background 0.2s ease,
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+    transition: background 0.2s ease, color 0.2s ease,
+                transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 
-/* Tilføj-knap */
+/* Tilføj */
+
 .actions button:first-child {
     background: #434544;
-    color: white;
+    color: #ffffff;
 }
 
 .actions button:first-child:hover {
     background: #585a58;
     transform: translateY(-1px);
-    box-shadow: 0 4px 10px rgba(47, 125, 74, 0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
 }
 
 
-/* Slet-knap */
+/* Slet */
 
 .actions button:last-child {
-    background: #4e4b4b;
-    color: #050505;
+    background: #e7caca;
+    color: #633b3b;
 }
 
 .actions button:last-child:hover:not(:disabled) {
-    background: #e7caca;
+    background: #d9b2b2;
     transform: translateY(-1px);
 }
 
@@ -458,11 +489,13 @@
 .actions button:disabled {
     opacity: 0.45;
     cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
 
 
 /* =========================================================
-   MOBIL
+   13. MOBIL OG TABLET
    ========================================================= */
 
 @media (max-width: 768px) {
@@ -470,8 +503,6 @@
     .page {
         padding: 1rem;
     }
-
-    /* Header */
 
     .app-header {
         margin-bottom: 1.5rem;
@@ -487,9 +518,6 @@
         font-size: 1.2rem;
     }
 
-
-    /* Dashboard */
-
     .dashboard {
         grid-template-columns: repeat(2, 1fr);
         margin-bottom: 1.5rem;
@@ -503,16 +531,10 @@
         font-size: 1.8rem;
     }
 
-
-    /* Hovedlayout */
-
     .layout {
         grid-template-columns: 1fr;
         gap: 1rem;
     }
-
-
-    /* Sidebar */
 
     .sidebar {
         padding: 1rem;
@@ -528,9 +550,6 @@
         margin: 0;
     }
 
-
-    /* Content */
-
     .content {
         padding: 1.25rem;
         min-height: auto;
@@ -543,7 +562,7 @@
 
 
 /* =========================================================
-   MEGET SMÅ SKÆRME
+   14. MEGET SMÅ SKÆRME
    ========================================================= */
 
 @media (max-width: 450px) {
@@ -568,9 +587,6 @@
         width: 100%;
     }
 
-
-    /* Huskelister på små skærme */
-
     .item-list li {
         gap: 8px;
     }
@@ -584,12 +600,28 @@
     .item-name {
         padding: 12px;
     }
-    .sidebar h3 {
+
+    .sidebar ul li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    }
+
+    .category-name {
+    flex: 1;
     cursor: pointer;
-    transition: color 0.2s ease;
+    display: block;
+    position: relative;
+    z-index: 1;
+    }
+
+    .delete-category-button {
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+    pointer-events: auto;
+    }
+
 }
 
-    .sidebar h3:hover {
-        color: #4F805B;
-    }
-}

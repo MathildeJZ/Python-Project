@@ -1,53 +1,27 @@
-        <div class="page">
+
+<div class="page">
 
     <!-- DASHBOARD -->
     <section class="dashboard">
 
-        <!-- I ALT -->
         <div class="stat-card">
-        <span class="stat-number">
-            {{ totalItems() }}
-        </span>
-
-        <span class="stat-label">
-            I alt
-        </span>
+            <span class="stat-number">{{ totalItems() }}</span>
+            <span class="stat-label">I alt</span>
         </div>
 
-
-        <!-- STUDIE -->
         <div class="stat-card">
-        <span class="stat-number">
-            {{ studyItems() }}
-        </span>
-
-        <span class="stat-label">
-            Studie
-        </span>
+            <span class="stat-number">{{ studyItems() }}</span>
+            <span class="stat-label">Studie</span>
         </div>
 
-
-        <!-- ARBEJDE -->
         <div class="stat-card">
-        <span class="stat-number">
-            {{ workItems() }}
-        </span>
-
-        <span class="stat-label">
-            Arbejde
-        </span>
+            <span class="stat-number">{{ workItems() }}</span>
+            <span class="stat-label">Arbejde</span>
         </div>
 
-
-        <!-- ANDRE -->
         <div class="stat-card">
-        <span class="stat-number">
-            {{ otherItems() }}
-        </span>
-
-        <span class="stat-label">
-            Andre
-        </span>
+            <span class="stat-number">{{ otherItems() }}</span>
+            <span class="stat-label">Andre</span>
         </div>
 
     </section>
@@ -56,143 +30,179 @@
     <!-- HOVEDLAYOUT -->
     <div class="layout">
 
-
         <!-- SIDEBAR -->
         <aside class="sidebar">
 
-        <h3 (click)="showAllItems()" class="category-heading">
-            Kategorier
-        </h3>
-
-        <ul>
-
-            <li
-            *ngFor="let cat of categories"
-            (click)="selectCategory(cat)"
-            [class.active]="selectedCategory() === cat"
+            <h3
+                (click)="showAllItems()"
+                class="category-heading"
             >
-            {{ cat }}
-            </li>
+                Kategorier
+            </h3>
 
-        </ul>
+           
+<!-- KATEGORIER -->
+<ul>
+    <li *ngFor="let cat of categories"
+        [class.active]="selectedCategory() === cat">
+
+        <span
+            class="category-name"
+            (click)="selectCategory(cat)">
+            {{ cat }}
+        </span>
+
+        <button
+            type="button"
+            class="delete-category-button"
+            (click)="deleteCategory(cat); $event.stopPropagation()"
+            title="Slet liste">
+            ×
+        </button>
+
+    </li>
+</ul>
+
+
+            <!-- OPRET NY LISTE -->
+            <button
+                class="add-category-button"
+                (click)="showNewCategoryInput = !showNewCategoryInput"
+            >
+                Tilføj ny liste
+            </button>
+
+            <!-- FELT TIL NY LISTE -->
+            <div
+                *ngIf="showNewCategoryInput"
+                class="new-category-form"
+            >
+                <input
+                    type="text"
+                    [(ngModel)]="newCategoryName"
+                    placeholder="Skriv listens navn"
+                    (keydown.enter)="addCategory()"
+                />
+
+                <button (click)="addCategory()">
+                    Gem liste
+                </button>
+            </div>
 
         </aside>
 
 
-        <!-- CONTENT -->
+        <!-- HOVEDINDHOLD -->
         <main class="content">
 
-
-        <!-- VALGT KATEGORI -->
-        <h2>
-            {{ selectedCategory() ?? 'Alle huskesedler' }}
-        </h2>
-
-
-        <!-- KATEGORI-BESKRIVELSER -->
-
-        <div *ngIf="selectedCategory() === 'Indkøb'">
-            <p>Her er din indkøbsliste:</p>
-        </div>
-
-        <div *ngIf="selectedCategory() === 'Arbejde'">
-            <p>Her er dine arbejdsopgaver:</p>
-        </div>
-
-        <div *ngIf="selectedCategory() === 'Studie'">
-            <p>Her er dine studieopgaver:</p>
-        </div>
-
-        <div *ngIf="selectedCategory() === 'Rejse'">
-            <p>Her er dine rejsemål:</p>
-        </div>
-
-        <div *ngIf="selectedCategory() === 'Rengøring'">
-            <p>Her er dine rengøringsopgaver:</p>
-        </div>
-
-        <div *ngIf="selectedCategory() === 'Børn'">
-            <p>Her er hvad børnene har/mangler:</p>
-        </div>
-
-        <div *ngIf="selectedCategory() === 'Økonomi'">
-            <p>Her er dine økonomiske mål:</p>
-        </div>
-
-        <div *ngIf="selectedCategory() === 'Projekter'">
-            <p>Her er dine projekter:</p>
-        </div>
-
-        <div *ngIf="selectedCategory() === 'Personlige mål'">
-            <p>Her er dine personlige mål:</p>
-        </div>
-        <!-- Søgning -->
-        <div class="search-box">
-            <input  
-                type="text"
-                [ngModel] ="searchTerm()"
-                (ngModelChange)="searchTerm.set($event)"                
-                placeholder="Søg i dine huskelister..."
-            />
-        </div>
+            <!-- VALGT KATEGORI -->
+            <h2>
+                {{ selectedCategory() ?? 'Alle huskesedler' }}
+            </h2>
 
 
-        <!-- ITEM LISTE -->
-        <ul class="item-list">
-
-            <li
-            *ngFor="let item of filteredItems()"
-            (click)="toggleItem(item)"
-            [class.selected]="selectedItems().some(i => i.id === item.id)"
-            >
-
-            <span class="item-name">
-            {{ item.name }}
-            </span>
-
-            <span class="item-category" (click)="openCategory(item.category); $event.stopPropagation()"
-            >
-            {{ item.category }}
-            </span>
-            </li>
-
-        </ul>
-
-
-        <!-- NY HUSKESEDDEL -->
-        <div class="bottom-section">
-
-            <input
-            [ngModel]="newItemName()"
-            (ngModelChange)="newItemName.set($event)"
-            (keydown.enter)="addItem()"
-            placeholder="Tilføj til huskeseddel"
-            />
-
-
-            <!-- KNAPPER -->
-            <div class="actions">
-
-            <button
-                (click)="addItem()"
-            >
-                Tilføj
-            </button>
-
-
-            <button
-                (click)="deleteSelectedItems()"
-                [disabled]="selectedItems().length === 0"
-            >
-                Slet
-            </button>
-
+            <!-- KATEGORI-BESKRIVELSER -->
+            <div *ngIf="selectedCategory() === 'Indkøb'">
+                <p>Her er din indkøbsliste:</p>
             </div>
 
-        </div>
+            <div *ngIf="selectedCategory() === 'Arbejde'">
+                <p>Her er dine arbejdsopgaver:</p>
+            </div>
+
+            <div *ngIf="selectedCategory() === 'Studie'">
+                <p>Her er dine studieopgaver:</p>
+            </div>
+
+            <div *ngIf="selectedCategory() === 'Rejse'">
+                <p>Her er dine rejsemål:</p>
+            </div>
+
+            <div *ngIf="selectedCategory() === 'Rengøring'">
+                <p>Her er dine rengøringsopgaver:</p>
+            </div>
+
+            <div *ngIf="selectedCategory() === 'Børn'">
+                <p>Her er hvad børnene har/mangler:</p>
+            </div>
+
+            <div *ngIf="selectedCategory() === 'Økonomi'">
+                <p>Her er dine økonomiske mål:</p>
+            </div>
+
+            <div *ngIf="selectedCategory() === 'Projekter'">
+                <p>Her er dine projekter:</p>
+            </div>
+
+            <div *ngIf="selectedCategory() === 'Personlige mål'">
+                <p>Her er dine personlige mål:</p>
+            </div>
+
+
+            <!-- SØGNING -->
+            <div class="search-box">
+                <input
+                    type="text"
+                    [ngModel]="searchTerm()"
+                    (ngModelChange)="searchTerm.set($event)"
+                    placeholder="Søg i dine huskelister..."
+                />
+            </div>
+
+
+            <!-- HUSKESEDLER -->
+            <ul class="item-list">
+
+                <li
+                    *ngFor="let item of filteredItems()"
+                    (click)="toggleItem(item)"
+                    [class.selected]="selectedItems().some(i => i.id === item.id)"
+                >
+                    <span class="item-name">
+                        {{ item.name }}
+                    </span>
+
+                    <span
+                        class="item-category"
+                        (click)="openCategory(item.category); $event.stopPropagation()"
+                    >
+                        {{ item.category }}
+                    </span>
+                </li>
+
+            </ul>
+
+
+            <!-- TILFØJ HUSKESEDDEL -->
+            <div class="bottom-section">
+
+                <input
+                    [ngModel]="newItemName()"
+                    (ngModelChange)="newItemName.set($event)"
+                    (keydown.enter)="addItem()"
+                    placeholder="Tilføj til huskeseddel"
+                />
+
+                <!-- KNAPPER -->
+                <div class="actions">
+
+                    <button (click)="addItem()">
+                        Tilføj
+                    </button>
+
+                    <button
+                        (click)="deleteSelectedItems()"
+                        [disabled]="selectedItems().length === 0"
+                    >
+                        Slet
+                    </button>
+
+                </div>
+
+            </div>
 
         </main>
 
     </div>
 
-    </div>
+</div>
