@@ -1,8 +1,8 @@
-import { Component, signal } from '@angular/core';
+
+import { Component, signal, computed } from '@angular/core';
 import { ApiService } from '../api';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { computed} from '@angular/core';
 
 @Component({
   selector: 'app-items',
@@ -18,33 +18,37 @@ export class ItemsComponent {
   newItemName = signal('');
   selectedItems = signal<any[]>([]);
   selectedCategory = signal<string | null>(null);
-  totalItems = computed(() => this.items(). length);
   searchTerm = signal('');
 
+  // DASHBOARD
+  totalItems = computed(() => this.items().length);
+
   studyItems = computed(() =>
-    this.items().filter(item => item.category === 'Studie').length);
+    this.items().filter(item => item.category === 'Studie').length
+  );
 
   workItems = computed(() =>
-    this.items().filter(item => item.category === 'Arbejde').length);
+    this.items().filter(item => item.category === 'Arbejde').length
+  );
 
   otherItems = computed(() =>
     this.items().filter(
-      item => item.category !== 'Studie' && item.category !== 'Arbejde'
-    ).length);
-  
-
+      item => item.category !== 'Studie' &&
+              item.category !== 'Arbejde'
+    ).length
+  );
 
   // KATEGORIER
   categories = [
-    "Indkøb",
-    "Arbejde",
-    "Studie",
-    "Rejse",
-    "Rengøring",
-    "Børn",
-    "Økonomi",
-    "Projekter",
-    "Personlige mål",
+    'Indkøb',
+    'Arbejde',
+    'Studie',
+    'Rejse',
+    'Rengøring',
+    'Børn',
+    'Økonomi',
+    'Projekter',
+    'Personlige mål'
   ];
 
   constructor(private api: ApiService) {}
@@ -53,20 +57,22 @@ export class ItemsComponent {
     this.loadItems();
   }
 
-  // HENT ALLE ITEMS FRA BACKEND
+  // HENT ALLE HUSKESEDLER FRA BACKEND
   loadItems() {
-    this.api.getItems().subscribe(data => {
-      this.items.set(data);
+    this.api.getItems().subscribe({
+      next: data => {
+        this.items.set(data);
+      },
+      error: error => {
+        console.error('FEJL VED HENTNING AF HUSKESEDLER:', error);
+      }
     });
   }
 
-  // TILFØJ ITEM MED KATEGORI
+  // TILFØJ NY HUSKESEDDEL
   addItem() {
     const name = this.newItemName().trim();
     const category = this.selectedCategory();
-
-    console.log('NAVN:', name);
-    console.log('KATEGORI:', category);
 
     if (!name) return;
 
@@ -76,40 +82,53 @@ export class ItemsComponent {
     }
 
     this.api.createItem({ name, category }).subscribe({
-      next: (response) => {
-        console.log('API SVAR:', response);
-
+      next: () => {
         this.newItemName.set('');
         this.loadItems();
       },
-      error: (error) => {
-        console.error('API FEJL:', error);
+      error: error => {
+        console.error('FEJL VED OPRETTELSE:', error);
       }
     });
   }
-    
-  // MULTI-SELECT
+
+  // VÆLG ELLER FRAVÆLG HUSKESEDDEL
   toggleItem(item: any) {
     const current = this.selectedItems();
     const exists = current.some(i => i.id === item.id);
 
     if (exists) {
-      this.selectedItems.set(current.filter(i => i.id !== item.id));
+      this.selectedItems.set(
+        current.filter(i => i.id !== item.id)
+      );
     } else {
       this.selectedItems.set([...current, item]);
     }
   }
 
-  // SLET VALGTE ITEMS
+  // SLET VALGTE HUSKESEDLER
   deleteSelectedItems() {
-    const items = this.selectedItems();
-    if (items.length === 0) return;
+    const itemsToDelete = this.selectedItems();
 
-    items.forEach((item, index) => {
-      this.api.deleteItem(item.id).subscribe(() => {
-        if (index === items.length - 1) {
-          this.selectedItems.set([]);
-          this.loadItems();
+    if (itemsToDelete.length === 0) return;
+
+    let deletedCount = 0;
+    let hasError = false;
+
+    itemsToDelete.forEach(item => {
+      this.api.deleteItem(item.id).subscribe({
+        next: () => {
+          deletedCount++;
+
+          if (deletedCount + (itemsToDelete.length - deletedCount) === itemsToDelete.length &&
+              deletedCount === itemsToDelete.length && !hasError) {
+            this.selectedItems.set([]);
+            this.loadItems();
+          }
+        },
+        error: error => {
+          hasError = true;
+          console.error('FEJL VED SLETNING:', error);
         }
       });
     });
@@ -119,35 +138,40 @@ export class ItemsComponent {
   selectCategory(category: string) {
     this.selectedCategory.set(category);
   }
-  
+
+  // ÅBN KATEGORI FRA EN HUSKESEDDEL
   openCategory(category: string) {
     this.selectedCategory.set(category);
     this.searchTerm.set('');
-  } 
+  }
 
-  // FILTRER ITEMS EFTER KATEGORI
+  // VIS ALLE HUSKESEDLER
+  showAllItems() {
+    this.selectedCategory.set(null);
+    this.searchTerm.set('');
+  }
+
+  // FILTRER EFTER SØGETEKST OG KATEGORI
+
     filteredItems(): any[] {
-
       const search = this.searchTerm().toLowerCase().trim();
-
-      // Hvis der søges, søges der i ALLE kategorier
-      if (search) {
-        return this.items().filter(item =>
-          item.name.toLowerCase().includes(search)
-        );
-      }
-
-      // Hvis der ikke søges, vises kun den valgte kategori
       const category = this.selectedCategory();
 
-      if (!category) {
-        return [];
-      }
+      return this.items().filter(item => {
+        const name = String(item.name ?? '').toLowerCase();
 
-      return this.items().filter(
-        item => item.category === category
-      );
-      
-  }
+        // Søgeteksten skal matche
+        const matchesSearch = name.includes(search);
+
+        // Hvis der søges, søges i alle kategorier
+        // Hvis der ikke søges, bruges den valgte kategori
+        const matchesCategory = search !== ''
+          ? true
+          : (!category || item.category === category);
+
+        return matchesSearch && matchesCategory;
+      });
+    }
+
 }
 

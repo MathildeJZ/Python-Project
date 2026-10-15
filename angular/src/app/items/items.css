@@ -243,28 +243,29 @@
     width: 100%;
     box-sizing: border-box;
     padding: 0.9rem 1rem;
-    border: 1px solid #ccd8d0;
+    background: #DCEAF7;
+    border: 1px solid #C5D5E6;
     border-radius: 0.75rem;
-    background: rgba(255, 255, 255, 0.85);
+
     font-size: 1rem;
-    color: #173b2a;
+    color: #355675;
     outline: none;
-    transition:
-        border 0.2s ease,
-        box-shadow 0.2s ease,
-        background 0.2s ease;
+
+    transition: background 0.2s ease,
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
 }
 
 .search-box input::placeholder {
-    color: #8a968f;
+    color: #6F849A;
 }
 
 .search-box input:focus {
-    background: white;
-    border-color: #585858;
-    box-shadow:
-        0 0 0 3px rgba(101, 185, 109, 0.15);
+    background: #F5F8FC;
+    border-color: #7398BD;
+    box-shadow: 0 0 0 3px rgba(83, 126, 171, 0.15);
 }
+
 
 
 /* =========================================================
@@ -381,22 +382,26 @@
     width: 100%;
     box-sizing: border-box;
     padding: 0.9rem 1rem;
-    border: 1px solid #ccd8d0;
-    border-radius: 0.6rem;
-    background: rgba(255, 255, 255, 0.90);
+
+    background: #E4F1E7;
+    border: 2px solid #8BAF94;
+    border-radius: 0.75rem;
+
     font-size: 1rem;
+    color: #173b2a;
     outline: none;
+
     transition:
-        border 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease,
         box-shadow 0.2s ease;
 }
 
 .bottom-section input:focus {
-    border-color: #878987;
-    box-shadow:
-        0 0 0 3px rgba(101, 185, 109, 0.15);
+    background: #F2F8F3;
+    border-color: #4F805B;
+    box-shadow: 0 0 0 3px rgba(79, 128, 91, 0.20);
 }
-
 
 /* =========================================================
    KNAPPER
@@ -578,5 +583,13 @@
 
     .item-name {
         padding: 12px;
+    }
+    .sidebar h3 {
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+    .sidebar h3:hover {
+        color: #4F805B;
     }
 }

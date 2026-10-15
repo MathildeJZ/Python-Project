@@ -60,7 +60,9 @@
         <!-- SIDEBAR -->
         <aside class="sidebar">
 
-        <h3>Kategorier</h3>
+        <h3 (click)="showAllItems()" class="category-heading">
+            Kategorier
+        </h3>
 
         <ul>
 
@@ -82,8 +84,8 @@
 
 
         <!-- VALGT KATEGORI -->
-        <h2 *ngIf="selectedCategory()">
-            {{ selectedCategory() }}
+        <h2>
+            {{ selectedCategory() ?? 'Alle huskesedler' }}
         </h2>
 
 
@@ -164,7 +166,7 @@
             [ngModel]="newItemName()"
             (ngModelChange)="newItemName.set($event)"
             (keydown.enter)="addItem()"
-            placeholder="Ny huskeseddel"
+            placeholder="Tilføj til huskeseddel"
             />
 
 
