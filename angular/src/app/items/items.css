@@ -150,13 +150,21 @@ body {
     margin: 0;
 }
 
+/* Hver kategori er en række */
+
 .sidebar li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    box-sizing: border-box;
     padding: 0.75rem 1rem;
     margin-bottom: 0.35rem;
     border-radius: 0.6rem;
     cursor: pointer;
     color: #365443;
-    transition: background 0.2s ease, color 0.2s ease,
+    transition: background 0.2s ease,
+                color 0.2s ease,
                 transform 0.2s ease;
 }
 
@@ -171,6 +179,55 @@ body {
     color: #666968;
     font-weight: 600;
     border: 1px solid #c8c8c8;
+}
+
+/* Kategorinavnet fylder den ledige plads */
+
+.sidebar .category-name {
+    flex: 1;
+    min-width: 0;
+    display: block;
+    cursor: pointer;
+    overflow-wrap: anywhere;
+}
+
+/* Sletteikonet har fast bredde og placering */
+
+.sidebar .delete-category-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 30px;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    margin-left: auto;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: #9ca3af;
+    cursor: pointer;
+    opacity: 0;
+    transition: background-color 0.2s ease,
+                color 0.2s ease,
+                opacity 0.2s ease;
+}
+
+.sidebar li:hover .delete-category-button,
+.sidebar li.active .delete-category-button,
+.sidebar .delete-category-button:focus-visible {
+    opacity: 1;
+}
+
+.sidebar .delete-category-button:hover {
+    background-color: #fee2e2;
+    color: #dc2626;
+}
+
+.sidebar .delete-category-button:focus-visible {
+    opacity: 1;
+    outline: 2px solid #93c5fd;
+    outline-offset: 2px;
 }
 
 
@@ -190,7 +247,8 @@ body {
     font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s ease, transform 0.2s ease,
+    transition: background 0.2s ease,
+                transform 0.2s ease,
                 box-shadow 0.2s ease;
 }
 
@@ -222,7 +280,8 @@ body {
     font-size: 1rem;
     color: #173b2a;
     outline: none;
-    transition: background 0.2s ease, border-color 0.2s ease,
+    transition: background 0.2s ease,
+                border-color 0.2s ease,
                 box-shadow 0.2s ease;
 }
 
@@ -242,7 +301,8 @@ body {
     font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s ease, transform 0.2s ease;
+    transition: background 0.2s ease,
+                transform 0.2s ease;
 }
 
 .new-category-form button:hover {
@@ -286,7 +346,6 @@ body {
 
 /* =========================================================
    9. SØGEFELT
-   Blå baggrund gør søgning let at skelne fra tilføjelse.
    ========================================================= */
 
 .search-box {
@@ -304,7 +363,8 @@ body {
     font-size: 1rem;
     color: #355675;
     outline: none;
-    transition: background 0.2s ease, border-color 0.2s ease,
+    transition: background 0.2s ease,
+                border-color 0.2s ease,
                 box-shadow 0.2s ease;
 }
 
@@ -338,7 +398,6 @@ body {
     cursor: pointer;
 }
 
-
 /* Huskesedlens tekst */
 
 .item-name {
@@ -351,10 +410,10 @@ body {
     font-weight: 500;
     color: #173b2a;
     overflow-wrap: anywhere;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease,
+    transition: border-color 0.2s ease,
+                box-shadow 0.2s ease,
                 background 0.2s ease;
 }
-
 
 /* Kategori ved siden af huskesedlen */
 
@@ -372,9 +431,9 @@ body {
     font-size: 0.9rem;
     font-weight: 600;
     overflow-wrap: anywhere;
-    transition: background 0.2s ease, border-color 0.2s ease;
+    transition: background 0.2s ease,
+                border-color 0.2s ease;
 }
-
 
 /* Hover på huskeseddel */
 
@@ -387,7 +446,6 @@ body {
     background: #dff1e5;
     border-color: #5f5f5f;
 }
-
 
 /* Valgt huskeseddel */
 
@@ -405,7 +463,6 @@ body {
 
 /* =========================================================
    11. FELT TIL NY HUSKESEDDEL
-   Grøn baggrund adskiller det fra det blå søgefelt.
    ========================================================= */
 
 .bottom-section {
@@ -424,7 +481,8 @@ body {
     font-size: 1rem;
     color: #173b2a;
     outline: none;
-    transition: background 0.2s ease, border-color 0.2s ease,
+    transition: background 0.2s ease,
+                border-color 0.2s ease,
                 box-shadow 0.2s ease;
 }
 
@@ -452,10 +510,11 @@ body {
     font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s ease, color 0.2s ease,
-                transform 0.2s ease, box-shadow 0.2s ease;
+    transition: background 0.2s ease,
+                color 0.2s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
 }
-
 
 /* Tilføj */
 
@@ -470,7 +529,6 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
 }
 
-
 /* Slet */
 
 .actions button:last-child {
@@ -482,7 +540,6 @@ body {
     background: #d9b2b2;
     transform: translateY(-1px);
 }
-
 
 /* Deaktiveret knap */
 
@@ -499,7 +556,6 @@ body {
    ========================================================= */
 
 @media (max-width: 768px) {
-
     .page {
         padding: 1rem;
     }
@@ -547,7 +603,15 @@ body {
     }
 
     .sidebar li {
+        width: auto;
+        max-width: 100%;
         margin: 0;
+    }
+
+    /* Vis sletteikonet på touchskærme */
+
+    .sidebar .delete-category-button {
+        opacity: 1;
     }
 
     .content {
@@ -566,7 +630,6 @@ body {
    ========================================================= */
 
 @media (max-width: 450px) {
-
     .dashboard {
         grid-template-columns: 1fr;
     }
@@ -600,28 +663,4 @@ body {
     .item-name {
         padding: 12px;
     }
-
-    .sidebar ul li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    }
-
-    .category-name {
-    flex: 1;
-    cursor: pointer;
-    display: block;
-    position: relative;
-    z-index: 1;
-    }
-
-    .delete-category-button {
-    position: relative;
-    z-index: 2;
-    cursor: pointer;
-    pointer-events: auto;
-    }
-
 }
-

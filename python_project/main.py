@@ -61,6 +61,59 @@ def create_item(item: Item):
     return {"message": "Item created", "name": item.name}
 
 
+# REDIGER EN HUSKESEDDEL
+@app.put("/items/{id}")
+def update_item(id: int, item: Item):
+    name = item.name.strip()
+    category = item.category.strip()
+
+    if not name:
+        raise HTTPException(
+            status_code=400,
+            detail="Huskesedlen må ikke være tom."
+        )
+
+    conn = db.get_connection()
+    cursor = conn.cursor()
+
+    try:
+        # Undersøg, om huskesedlen findes
+        cursor.execute(
+            "SELECT id FROM items WHERE id = ?",
+            (id,)
+        )
+
+        existing_item = cursor.fetchone()
+
+        if existing_item is None:
+            raise HTTPException(
+                status_code=404,
+                detail="Huskesedlen blev ikke fundet."
+            )
+
+        # Opdater den eksisterende huskeseddel
+        cursor.execute(
+            "UPDATE items SET name = ?, category = ? WHERE id = ?",
+            (name, category, id)
+        )
+
+        conn.commit()
+
+        return {
+            "message": "Huskeseddel opdateret",
+            "id": id,
+            "name": name,
+            "category": category
+        }
+
+    except Exception:
+        conn.rollback()
+        raise
+
+    finally:
+        conn.close()
+
+
 # SLET EN HUSKESEDDEL
 @app.delete("/items/{id}")
 def delete_item(id: int):

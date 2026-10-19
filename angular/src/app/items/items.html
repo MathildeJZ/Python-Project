@@ -40,28 +40,46 @@
                 Kategorier
             </h3>
 
-           
-<!-- KATEGORIER -->
-<ul>
-    <li *ngFor="let cat of categories"
-        [class.active]="selectedCategory() === cat">
+            
+            <!-- KATEGORIER -->
+        
+            <ul>
+                <li *ngFor="let cat of categories"
+                    [class.active]="selectedCategory() === cat">
 
-        <span
-            class="category-name"
-            (click)="selectCategory(cat)">
-            {{ cat }}
-        </span>
+                    <span
+                        class="category-name"
+                        (click)="selectCategory(cat)">
+                        {{ cat }}
+                    </span>
 
-        <button
-            type="button"
-            class="delete-category-button"
-            (click)="deleteCategory(cat); $event.stopPropagation()"
-            title="Slet liste">
-            ×
-        </button>
+                    <button
+                        type="button"
+                        class="delete-category-button"
+                        (click)="deleteCategory(cat); $event.stopPropagation()"
+                        title="Slet liste"
+                        aria-label="Slet liste">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.7"
+                            stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M3 6h18"/>
+                            <path d="M8 6V4h8v2"/>
+                            <path d="m19 6-1 14H6L5 6"/>
+                            <path d="M10 11v5"/>
+                            <path d="M14 11v5"/>
+                        </svg>
+                    </button>
 
-    </li>
-</ul>
+                </li>
+            </ul>
+
 
 
             <!-- OPRET NY LISTE -->
@@ -148,29 +166,63 @@
                     placeholder="Søg i dine huskelister..."
                 />
             </div>
+        
+        <!-- HUSKESEDLER -->
+        <ul class="item-list">
+            <li
+            *ngFor="let item of filteredItems()"
+            (click)="toggleItem(item)"
+            [class.selected]="selectedItems().some(i => i.id === item.id)"
+            >
+            <!-- REDIGERINGSTILSTAND -->
+            <ng-container *ngIf="editingItemId() === item.id; else viewItem">
+                <input
+                type="text"
+                [ngModel]="editingItemName()"
+                (ngModelChange)="editingItemName.set($event)"
+                (click)="$event.stopPropagation()"
+                (keydown.enter)="saveItem(item); $event.stopPropagation()"
+                (keydown.escape)="cancelEdit(); $event.stopPropagation()"
+                />
 
-
-            <!-- HUSKESEDLER -->
-            <ul class="item-list">
-
-                <li
-                    *ngFor="let item of filteredItems()"
-                    (click)="toggleItem(item)"
-                    [class.selected]="selectedItems().some(i => i.id === item.id)"
+                <button
+                type="button"
+                (click)="saveItem(item); $event.stopPropagation()"
                 >
-                    <span class="item-name">
-                        {{ item.name }}
-                    </span>
+                Gem
+                </button>
 
-                    <span
-                        class="item-category"
-                        (click)="openCategory(item.category); $event.stopPropagation()"
-                    >
-                        {{ item.category }}
-                    </span>
-                </li>
+                <button
+                type="button"
+                (click)="cancelEdit(); $event.stopPropagation()"
+                >
+                Annuller
+                </button>
+            </ng-container>
 
-            </ul>
+            <!-- NORMAL VISNING -->
+            <ng-template #viewItem>
+                <span class="item-name">
+                {{ item.name }}
+                </span>
+
+                <span
+                class="item-category"
+                (click)="openCategory(item.category); $event.stopPropagation()"
+                >
+                {{ item.category }}
+                </span>
+
+                <button
+                type="button"
+                (click)="editItem(item); $event.stopPropagation()"
+                >
+                Rediger
+                </button>
+            </ng-template>
+            </li>
+        </ul>
+
 
 
             <!-- TILFØJ HUSKESEDDEL -->
@@ -195,6 +247,14 @@
                         [disabled]="selectedItems().length === 0"
                     >
                         Slet
+                    </button>
+
+                    
+                    <button
+                        (click)="changeCategory()"
+                        [disabled]="selectedItems().length === 0"
+                    >
+                        Ændre kategori
                     </button>
 
                 </div>
