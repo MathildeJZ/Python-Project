@@ -23,11 +23,17 @@ export class ApiService {
     return this.http.post(`${this.baseUrl}/items`, item);
   }
 
+
   // Opdater huskeseddel
   updateItem(id: number, item: { name: string; category: string }) {
     return this.http.put(`${this.baseUrl}/items/${id}`, item);
   }
 
+  // Opdater en listes navn
+  updateCategory(id: number, category: { name: string }) {
+    return this.http.put(`${this.baseUrl}/categories/${id}`, category);
+  }
+  
   // Slet huskeseddel
   deleteItem(id: number) {
     return this.http.delete(`${this.baseUrl}/items/${id}`);

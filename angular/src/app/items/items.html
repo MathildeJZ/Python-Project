@@ -47,11 +47,21 @@
                 <li *ngFor="let cat of categories"
                     [class.active]="selectedCategory() === cat">
 
+                    
                     <span
                         class="category-name"
                         (click)="selectCategory(cat)">
                         {{ cat }}
                     </span>
+
+                    <button
+                        type="button"
+                        (click)="renameCategory(cat); $event.stopPropagation()"
+                        title="Omdøb liste"
+                        aria-label="Omdøb liste">
+                        ✎
+                    </button>
+
 
                     <button
                         type="button"
@@ -247,14 +257,6 @@
                         [disabled]="selectedItems().length === 0"
                     >
                         Slet
-                    </button>
-
-                    
-                    <button
-                        (click)="changeCategory()"
-                        [disabled]="selectedItems().length === 0"
-                    >
-                        Ændre kategori
                     </button>
 
                 </div>

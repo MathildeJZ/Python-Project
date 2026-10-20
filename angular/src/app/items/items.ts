@@ -13,20 +13,23 @@ import { FormsModule } from '@angular/forms';
 })
 export class ItemsComponent implements OnInit {
 
-  // DATA SIGNALS
+  // DATA
   items = signal<any[]>([]);
   newItemName = signal('');
   selectedItems = signal<any[]>([]);
   selectedCategory = signal<string | null>(null);
   searchTerm = signal('');
 
-  // REDIGERING AF HUSKESEDDEL
+  // REDIGERING AF HUSKESEDLER
   editingItemId = signal<number | null>(null);
   editingItemName = signal('');
 
-  // NY LISTE
+  // OPRET NY LISTE
   showNewCategoryInput = false;
   newCategoryName = '';
+
+  // KATEGORIER
+  categories: string[] = [];
 
   // DASHBOARD
   totalItems = computed(() => this.items().length);
@@ -46,52 +49,36 @@ export class ItemsComponent implements OnInit {
     ).length
   );
 
-  // KATEGORIER
-  categories = [
-    'Indkøb',
-    'Arbejde',
-    'Studie',
-    'Rejse',
-    'Rengøring',
-    'Børn',
-    'Økonomi',
-    'Projekter',
-    'Personlige mål'
-  ];
-
   constructor(private api: ApiService) {}
 
-  // INITIALISERING
   ngOnInit(): void {
     this.loadItems();
     this.loadCategories();
   }
 
-  // HENT ALLE KATEGORIER
+  // HENT LISTER
   loadCategories(): void {
     this.api.getCategories().subscribe({
       next: data => {
         this.categories = data.map((category: any) => category.name);
       },
       error: error => {
-        console.error('FEJL VED HENTNING AF KATEGORIER:', error);
+        console.error('Fejl ved hentning af lister:', error);
       }
     });
   }
 
-  // HENT ALLE HUSKESEDLER
+  // HENT HUSKESEDLER
   loadItems(): void {
     this.api.getItems().subscribe({
-      next: data => {
-        this.items.set(data);
-      },
+      next: data => this.items.set(data),
       error: error => {
-        console.error('FEJL VED HENTNING AF HUSKESEDLER:', error);
+        console.error('Fejl ved hentning af huskesedler:', error);
       }
     });
   }
 
-  // TILFØJ NY HUSKESEDDEL
+  // OPRET HUSKESEDDEL
   addItem(): void {
     const name = this.newItemName().trim();
     const category = this.selectedCategory();
@@ -99,7 +86,7 @@ export class ItemsComponent implements OnInit {
     if (!name) return;
 
     if (!category) {
-      alert('Vælg en kategori først.');
+      alert('Vælg en liste først.');
       return;
     }
 
@@ -109,61 +96,74 @@ export class ItemsComponent implements OnInit {
         this.loadItems();
       },
       error: error => {
-        console.error('FEJL VED OPRETTELSE:', error);
+        console.error(error);
         alert('Huskesedlen kunne ikke oprettes.');
       }
     });
   }
 
-  // VÆLG ELLER FRAVÆLG HUSKESEDDEL
+  // VÆLG HUSKESEDDEL
   toggleItem(item: any): void {
-    const current = this.selectedItems();
-    const exists = current.some(i => i.id === item.id);
+    const selected = this.selectedItems();
+    const exists = selected.some(i => i.id === item.id);
 
-    if (exists) {
-      this.selectedItems.set(
-        current.filter(i => i.id !== item.id)
-      );
-    } else {
-      this.selectedItems.set([...current, item]);
-    }
+    this.selectedItems.set(
+      exists
+        ? selected.filter(i => i.id !== item.id)
+        : [...selected, item]
+    );
   }
 
   // SLET VALGTE HUSKESEDLER
   deleteSelectedItems(): void {
-    const itemsToDelete = this.selectedItems();
+    const selected = this.selectedItems();
 
-    if (itemsToDelete.length === 0) return;
+    if (selected.length === 0) {
+      alert('Vælg mindst én huskeseddel.');
+      return;
+    }
+
+    if (!confirm(`Vil du slette ${selected.length} huskeseddel(er)?`)) {
+      return;
+    }
 
     let completed = 0;
-    let hasError = false;
+    let failed = false;
 
-    itemsToDelete.forEach(item => {
+    selected.forEach(item => {
       this.api.deleteItem(item.id).subscribe({
         next: () => {
           completed++;
-
-          if (completed === itemsToDelete.length && !hasError) {
-            this.selectedItems.set([]);
-            this.loadItems();
-          }
+          finish();
         },
         error: error => {
-          hasError = true;
-          console.error('FEJL VED SLETNING:', error);
-          alert('En eller flere huskesedler kunne ikke slettes.');
+          console.error(error);
+          failed = true;
+          completed++;
+          finish();
         }
       });
     });
+
+    const finish = (): void => {
+      if (completed !== selected.length) return;
+
+      this.selectedItems.set([]);
+      this.loadItems();
+
+      if (failed) {
+        alert('En eller flere huskesedler kunne ikke slettes.');
+      }
+    };
   }
 
-  // START REDIGERING AF TEKST
+  // START REDIGERING AF HUSKESEDDEL
   editItem(item: any): void {
     this.editingItemId.set(item.id);
     this.editingItemName.set(item.name);
   }
 
-  // GEM REDIGERET TEKST
+  // GEM REDIGERET HUSKESEDDEL
   saveItem(item: any): void {
     const name = this.editingItemName().trim();
 
@@ -177,12 +177,11 @@ export class ItemsComponent implements OnInit {
       category: item.category
     }).subscribe({
       next: () => {
-        this.editingItemId.set(null);
-        this.editingItemName.set('');
-        this.loadItems();
+        this.items.update(items=> items.map(current => current.id === item.id ? { ...current, name } : current));
+        this.cancelEdit();
       },
       error: error => {
-        console.error('FEJL VED OPDATERING:', error);
+        console.error('Fejl ved opdatering af huskeseddel:', error);
         alert('Huskesedlen kunne ikke opdateres.');
       }
     });
@@ -194,121 +193,80 @@ export class ItemsComponent implements OnInit {
     this.editingItemName.set('');
   }
 
-  // ÆNDRE KATEGORI FOR VALGTE HUSKESEDLER
+  // FLYT VALGTE HUSKESEDLER TIL EN ANDEN LISTE
   changeCategory(): void {
-    const itemsToChange = this.selectedItems();
+    const selected = this.selectedItems();
 
-    if (itemsToChange.length === 0) return;
+    if (selected.length === 0) {
+      alert('Vælg mindst én huskeseddel først.');
+      return;
+    }
 
-    const newCategory = prompt(
-      'Skriv den nye kategori:\n' + this.categories.join(', ')
+    const input = prompt(
+      'Skriv navnet på den eksisterende liste:\n' +
+      this.categories.join(', ')
     );
 
-    if (!newCategory) return;
+    if (input === null) return;
 
-    const category = this.categories.find(
-      c => c.toLowerCase() === newCategory.trim().toLowerCase()
-    );
+    const category = input.trim();
 
-    if (!category) {
-      alert('Kategorien findes ikke. Vælg en eksisterende kategori.');
+    if (!this.categories.includes(category)) {
+      alert('Listen findes ikke. Vælg en eksisterende liste.');
       return;
     }
 
     let completed = 0;
-    let hasError = false;
+    let failed = false;
 
-    itemsToChange.forEach(item => {
+    const finish = (): void => {
+      if (completed !== selected.length) return;
+
+      this.selectedItems.set([]);
+      this.loadItems();
+
+      alert(
+        failed
+          ? 'En eller flere huskesedler kunne ikke flyttes.'
+          : 'Huskesedlerne er flyttet.'
+      );
+    };
+
+    selected.forEach(item => {
       this.api.updateItem(item.id, {
         name: item.name,
-        category: category
+        category
       }).subscribe({
         next: () => {
           completed++;
-
-          if (completed === itemsToChange.length && !hasError) {
-            this.selectedItems.set([]);
-            this.loadItems();
-            alert('Kategorien er ændret.');
-          }
+          finish();
         },
         error: error => {
-          hasError = true;
-          console.error('FEJL VED ÆNDRING AF KATEGORI:', error);
-          alert('Kategorien kunne ikke ændres.');
+          console.error(error);
+          failed = true;
+          completed++;
+          finish();
         }
       });
     });
   }
 
-  // VÆLG KATEGORI
+  // VÆLG LISTE
   selectCategory(category: string): void {
-    this.selectedCategory.set(category);
-  }
-
-  // ÅBN KATEGORI FRA EN HUSKESEDDEL
-  openCategory(category: string): void {
     this.selectedCategory.set(category);
     this.searchTerm.set('');
   }
 
-  // VIS ALLE HUSKESEDLER
+  openCategory(category: string): void {
+    this.selectCategory(category);
+  }
+
   showAllItems(): void {
     this.selectedCategory.set(null);
     this.searchTerm.set('');
   }
 
-  // SLET KATEGORI OG TILHØRENDE HUSKESEDLER
-  deleteCategory(categoryName: string): void {
-    const confirmed = confirm(
-      `Er du sikker på, at du vil slette listen "${categoryName}"?`
-    );
-
-    if (!confirmed) return;
-
-    this.api.getCategories().subscribe({
-      next: categories => {
-        const category = categories.find(
-          (c: any) => c.name === categoryName
-        );
-
-        if (!category) {
-          alert('Listen blev ikke fundet.');
-          return;
-        }
-
-        this.api.deleteCategory(category.id).subscribe({
-          next: () => {
-            this.categories = this.categories.filter(
-              c => c !== categoryName
-            );
-
-            if (this.selectedCategory() === categoryName) {
-              this.selectedCategory.set(null);
-            }
-
-            this.selectedItems.set(
-              this.selectedItems().filter(
-                item => item.category !== categoryName
-              )
-            );
-
-            this.loadItems();
-          },
-          error: error => {
-            console.error('FEJL VED SLETNING AF LISTE:', error);
-            alert('Listen kunne ikke slettes.');
-          }
-        });
-      },
-      error: error => {
-        console.error('FEJL VED HENTNING AF LISTER:', error);
-        alert('Listerne kunne ikke hentes.');
-      }
-    });
-  }
-
-  // OPRET NY LISTE
+  // OPRET LISTE
   addCategory(): void {
     const name = this.newCategoryName.trim();
 
@@ -332,17 +290,127 @@ export class ItemsComponent implements OnInit {
         this.selectedCategory.set(name);
       },
       error: error => {
-        if (error.status === 409) {
-          alert('En liste med det navn findes allerede.');
-        } else {
-          console.error('FEJL VED OPRETTELSE AF LISTE:', error);
-          alert('Listen kunne ikke oprettes.');
-        }
+        console.error(error);
+        alert(
+          error.status === 409
+            ? 'Listen findes allerede.'
+            : 'Listen kunne ikke oprettes.'
+        );
       }
     });
   }
 
-  // FILTRER EFTER SØGETEKST OG KATEGORI
+  // OMDØB LISTE
+  renameCategory(oldName: string): void {
+    const input = prompt('Skriv listens nye navn:', oldName);
+
+    if (input === null) return;
+
+    const newName = input.trim();
+
+    if (!newName) {
+      alert('Listen skal have et navn.');
+      return;
+    }
+
+    if (newName.toLowerCase() === oldName.toLowerCase()) {
+      return;
+    }
+
+    if (this.categories.some(
+      category => category.toLowerCase() === newName.toLowerCase()
+    )) {
+      alert('En liste med det navn findes allerede.');
+      return;
+    }
+
+    this.api.getCategories().subscribe({
+      next: categories => {
+        const current = categories.find(
+          (category: any) => category.name === oldName
+        );
+
+        if (!current) {
+          alert('Listen blev ikke fundet.');
+          return;
+        }
+
+        this.api.updateCategory(current.id, { name: newName }).subscribe({
+          next: () => {
+            if (this.selectedCategory() === oldName) {
+              this.selectedCategory.set(newName);
+            }
+
+            this.categories = this.categories.map(category =>
+              category === oldName ? newName : category
+            );
+
+            this.loadItems();
+          },
+          error: error => {
+            console.error(error);
+            alert('Listen kunne ikke omdøbes.');
+          }
+        });
+      },
+      error: error => {
+        console.error(error);
+        alert('Listerne kunne ikke hentes.');
+      }
+    });
+  }
+
+  // SLET LISTE
+  deleteCategory(categoryName: string): void {
+    if (!confirm(
+      `Vil du slette listen "${categoryName}" og dens huskesedler?`
+    )) {
+      return;
+    }
+
+    this.api.getCategories().subscribe({
+      next: categories => {
+        const category = categories.find(
+          (c: any) => c.name === categoryName
+        );
+
+        if (!category) {
+          alert('Listen blev ikke fundet.');
+          return;
+        }
+
+        this.api.deleteCategory(category.id).subscribe({
+          next: () => {
+            this.categories = this.categories.filter(
+              name => name !== categoryName
+            );
+
+            if (this.selectedCategory() === categoryName) {
+              this.selectedCategory.set(null);
+            }
+
+            this.selectedItems.set(
+              this.selectedItems().filter(
+                item => item.category !== categoryName
+              )
+            );
+
+            this.loadItems();
+          },
+          error: error => {
+            console.error(error);
+            alert('Listen kunne ikke slettes.');
+          }
+        });
+      },
+      error: error => {
+        console.error(error);
+        alert('Listerne kunne ikke hentes.');
+      }
+    });
+  }
+
+  // SØGNING OG FILTRERING
   filteredItems(): any[] {
     const search = this.searchTerm().toLowerCase().trim();
     const category = this.selectedCategory();

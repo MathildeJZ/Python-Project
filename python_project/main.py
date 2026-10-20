@@ -113,6 +113,75 @@ def update_item(id: int, item: Item):
     finally:
         conn.close()
 
+# REDIGER EN LISTES NAVN
+@app.put("/categories/{id}")
+def update_category(id: int, category: Category):
+    name = category.name.strip()
+
+    if not name:
+        raise HTTPException(
+            status_code=400,
+            detail="Listen skal have et navn."
+        )
+
+    conn = db.get_connection()
+    cursor = conn.cursor()
+
+    try:
+        # Find den eksisterende liste
+        cursor.execute(
+            "SELECT name FROM categories WHERE id = ?",
+            (id,)
+        )
+        existing_category = cursor.fetchone()
+
+        if existing_category is None:
+            raise HTTPException(
+                status_code=404,
+                detail="Listen blev ikke fundet."
+            )
+
+        old_name = existing_category["name"]
+
+        # Undgå at bruge et navn, der allerede findes
+        cursor.execute(
+            "SELECT id FROM categories WHERE name = ? AND id != ?",
+            (name, id)
+        )
+
+        if cursor.fetchone() is not None:
+            raise HTTPException(
+                status_code=409,
+                detail="En liste med det navn findes allerede."
+            )
+
+        # Opdater huskesedlerne, så de bliver på den samme liste
+        cursor.execute(
+            "UPDATE items SET category = ? WHERE category = ?",
+            (name, old_name)
+        )
+
+        # Gem listens nye navn
+        cursor.execute(
+            "UPDATE categories SET name = ? WHERE id = ?",
+            (name, id)
+        )
+
+        conn.commit()
+
+        return {
+            "message": "Listen blev opdateret.",
+            "id": id,
+            "name": name
+        }
+
+    except Exception:
+        conn.rollback()
+        raise
+
+    finally:
+        conn.close()
+
 
 # SLET EN HUSKESEDDEL
 @app.delete("/items/{id}")
