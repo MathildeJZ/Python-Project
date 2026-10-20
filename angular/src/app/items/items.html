@@ -54,13 +54,14 @@
                         {{ cat }}
                     </span>
 
-                    <button
-                        type="button"
-                        (click)="renameCategory(cat); $event.stopPropagation()"
-                        title="Omdøb liste"
-                        aria-label="Omdøb liste">
-                        ✎
-                    </button>
+                <button
+                    type="button"
+                    class="rename-category-button"
+                    (click)="renameCategory(cat); $event.stopPropagation()"
+                    title="Omdøb liste"
+                    aria-label="Omdøb liste">
+                    ✎
+                </button>
 
 
                     <button

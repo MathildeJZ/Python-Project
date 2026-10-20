@@ -150,8 +150,6 @@ body {
     margin: 0;
 }
 
-/* Hver kategori er en række */
-
 .sidebar li {
     display: flex;
     align-items: center;
@@ -181,8 +179,6 @@ body {
     border: 1px solid #c8c8c8;
 }
 
-/* Kategorinavnet fylder den ledige plads */
-
 .sidebar .category-name {
     flex: 1;
     min-width: 0;
@@ -191,7 +187,44 @@ body {
     overflow-wrap: anywhere;
 }
 
-/* Sletteikonet har fast bredde og placering */
+/* Omdøb-ikonet er skjult som standard */
+
+.sidebar .rename-category-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 30px;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: #9ca3af;
+    cursor: pointer;
+    opacity: 0;
+    transition: background-color 0.2s ease,
+                color 0.2s ease,
+                opacity 0.2s ease;
+}
+
+/* Vis pennen, når musen er over kategorien */
+
+.sidebar li:hover .rename-category-button,
+.sidebar li.active .rename-category-button,
+.sidebar .rename-category-button:focus-visible {
+    opacity: 1;
+}
+
+/* Hover på selve pennen */
+
+.sidebar .rename-category-button:hover {
+    background: #e0e7e2;
+    color: #173b2a;
+}
+
+
+/* Sletteikon til kategorier */
 
 .sidebar .delete-category-button {
     display: flex;
@@ -225,7 +258,6 @@ body {
 }
 
 .sidebar .delete-category-button:focus-visible {
-    opacity: 1;
     outline: 2px solid #93c5fd;
     outline-offset: 2px;
 }
@@ -312,16 +344,18 @@ body {
 
 
 /* =========================================================
-   8. INDHOLD
+   8. HOVEDINDHOLD
    ========================================================= */
 
 .content {
+    min-width: 0;
     background: #e8e8e8;
     padding: 2rem;
     border-radius: 1rem;
     min-height: 600px;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
     border: 1px solid #d0d0d0;
+    box-sizing: border-box;
 }
 
 .content h2 {
@@ -398,7 +432,8 @@ body {
     cursor: pointer;
 }
 
-/* Huskesedlens tekst */
+
+/* Teksten på huskesedlen */
 
 .item-name {
     flex: 1;
@@ -414,6 +449,7 @@ body {
                 box-shadow 0.2s ease,
                 background 0.2s ease;
 }
+
 
 /* Kategori ved siden af huskesedlen */
 
@@ -435,6 +471,7 @@ body {
                 border-color 0.2s ease;
 }
 
+
 /* Hover på huskeseddel */
 
 .item-list li:hover .item-name {
@@ -446,6 +483,7 @@ body {
     background: #dff1e5;
     border-color: #5f5f5f;
 }
+
 
 /* Valgt huskeseddel */
 
@@ -462,7 +500,63 @@ body {
 
 
 /* =========================================================
-   11. FELT TIL NY HUSKESEDDEL
+   11. REDIGERING AF HUSKESEDLER
+   ========================================================= */
+
+/* Redigeringsfeltet */
+
+.item-list li > input[type="text"] {
+    flex: 1;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 0.75rem 1rem;
+    background: #E4F1E7;
+    border: 2px solid #8BAF94;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    color: #173b2a;
+    outline: none;
+}
+
+.item-list li > input[type="text"]:focus {
+    background: #F2F8F3;
+    border-color: #4F805B;
+    box-shadow: 0 0 0 3px rgba(79, 128, 91, 0.20);
+}
+
+
+/* Rediger, Gem og Annuller */
+
+.item-list button {
+    flex-shrink: 0;
+    align-self: center;
+    background: #434544;
+    color: #ffffff;
+    border: none;
+    border-radius: 0.6rem;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease,
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.item-list button:hover {
+    background: #585a58;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.item-list button:focus-visible {
+    outline: 2px solid #8BAF94;
+    outline-offset: 3px;
+}
+
+
+/* =========================================================
+   12. FELT TIL NY HUSKESEDDEL
    ========================================================= */
 
 .bottom-section {
@@ -494,11 +588,12 @@ body {
 
 
 /* =========================================================
-   12. KNAPPER TIL HUSKESEDLER
+   13. KNAPPER TIL HUSKESEDLER
    ========================================================= */
 
 .actions {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.75rem;
     margin-top: 1rem;
 }
@@ -516,6 +611,7 @@ body {
                 box-shadow 0.2s ease;
 }
 
+
 /* Tilføj */
 
 .actions button:first-child {
@@ -529,6 +625,7 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
 }
 
+
 /* Slet */
 
 .actions button:last-child {
@@ -541,7 +638,8 @@ body {
     transform: translateY(-1px);
 }
 
-/* Deaktiveret knap */
+
+/* Deaktiverede knapper */
 
 .actions button:disabled {
     opacity: 0.45;
@@ -552,7 +650,7 @@ body {
 
 
 /* =========================================================
-   13. MOBIL OG TABLET
+   14. MOBIL OG TABLET
    ========================================================= */
 
 @media (max-width: 768px) {
@@ -626,7 +724,7 @@ body {
 
 
 /* =========================================================
-   14. MEGET SMÅ SKÆRME
+   15. MEGET SMÅ SKÆRME
    ========================================================= */
 
 @media (max-width: 450px) {
@@ -651,7 +749,13 @@ body {
     }
 
     .item-list li {
+        flex-wrap: wrap;
         gap: 8px;
+    }
+
+    .item-name {
+        flex: 1 1 100%;
+        padding: 12px;
     }
 
     .item-category {
@@ -660,7 +764,12 @@ body {
         font-size: 0.8rem;
     }
 
-    .item-name {
-        padding: 12px;
+    .item-list li > input[type="text"] {
+        flex: 1 1 100%;
+    }
+
+    .item-list button {
+        padding: 0.65rem 0.9rem;
+        font-size: 0.9rem;
     }
 }
